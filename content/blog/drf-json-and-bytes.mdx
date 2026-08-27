@@ -1,0 +1,11 @@
+---
+title: "JSON 与 bytes：序列化边界中的类型错误"
+summary: "JSON 编码器需要 Python 原生结构，而不是尚未解码的 bytes。"
+author: "bibi45"
+publishedAt: "2020-08-08"
+tag: "Backend"
+---
+
+遇到 `the JSON object must be str, bytes or bytearray` 一类错误时，先确认数据的真实类型和方向：网络响应 bytes 需要按正确编码解码；Python dict 则直接交给响应层。
+
+不要对已经是 dict 的对象重复 `json.loads()`，也不要把二进制文件内容塞进 JSON。二进制数据应通过文件存储或 Base64 约定单独处理，并考虑体积限制。

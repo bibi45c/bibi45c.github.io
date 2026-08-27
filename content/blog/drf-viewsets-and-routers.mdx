@@ -1,0 +1,17 @@
+---
+title: "DRF ViewSet 与 Router：资源路由的约定"
+summary: "用 ViewSet 统一一组资源操作，并理解 Router 自动生成 URL 的边界。"
+author: "bibi45"
+publishedAt: "2020-07-02"
+tag: "Backend"
+---
+
+`ModelViewSet` 为同一资源提供 list、retrieve、create、update、partial_update 和 destroy。Router 负责将这些 action 绑定为 URL。
+
+```python
+router = DefaultRouter()
+router.register("projects", ProjectViewSet, basename="project")
+urlpatterns = router.urls
+```
+
+当 ViewSet 只有动态 `get_queryset()`、没有类属性 `queryset` 时，应明确设置 `basename`。Router 的前缀不应自己再加末尾斜杠，末尾斜杠策略由 Router 统一管理。

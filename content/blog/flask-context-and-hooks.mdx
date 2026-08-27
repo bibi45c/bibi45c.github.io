@@ -1,0 +1,17 @@
+---
+title: "Flask 上下文与 Hooks：请求级资源如何收尾"
+summary: "把追踪、数据库会话和清理放在正确的请求生命周期位置。"
+author: "bibi45"
+publishedAt: "2020-05-18"
+tag: "Backend"
+---
+
+应用上下文承载配置和扩展，请求上下文承载当前请求。数据库会话、trace id 等请求级资源不应成为跨请求的全局可变状态。
+
+```python
+@app.teardown_appcontext
+def close_db(error=None):
+    db.session.remove()
+```
+
+before/after/teardown hooks 适合通用横切逻辑；核心业务判断仍放在显式服务函数中。清理函数必须能在异常路径运行，且不能吞掉原始异常。

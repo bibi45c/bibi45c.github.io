@@ -1,0 +1,18 @@
+---
+title: "SQLAlchemy 关系与事务：一致性优先于便利"
+summary: "建立关系模型时，先定义生命周期、删除语义和事务边界。"
+author: "bibi45"
+publishedAt: "2020-06-02"
+tag: "Backend"
+---
+
+一对多、多对多和级联删除都应从业务生命周期推导。删除父对象时，子对象应删除、置空、拒绝删除还是保留历史，不能靠 ORM 默认值猜测。
+
+```python
+with Session(engine) as session, session.begin():
+    order = Order(customer_id=customer_id)
+    session.add(order)
+    session.add(OrderItem(order=order, sku_id=sku_id, quantity=1))
+```
+
+将同一业务操作的写入放进一个事务；失败时回滚。不要在模型方法深处随意 `commit()`，那会让调用方无法组合多个操作。

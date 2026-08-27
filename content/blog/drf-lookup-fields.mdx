@@ -1,0 +1,17 @@
+---
+title: "DRF 查找字段：pk、slug 与 UUID 的取舍"
+summary: "资源详情的 URL 参数应与数据模型和暴露边界一起设计。"
+author: "bibi45"
+publishedAt: "2020-07-24"
+tag: "Backend"
+---
+
+默认查找字段是 `pk`，但外部接口常会使用稳定 slug 或 UUID。ViewSet 与 Serializer 的 lookup 配置必须一致。
+
+```python
+class ProjectViewSet(viewsets.ModelViewSet):
+    lookup_field = "public_id"
+    lookup_value_converter = "uuid"
+```
+
+查找字段不是授权机制。即使 ID 难猜，也必须在 `get_queryset()` 或对象权限中限制当前主体可访问的数据。

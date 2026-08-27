@@ -1,0 +1,11 @@
+---
+title: "Flask 模板与静态资源：服务端渲染的边界"
+summary: "模板负责展示，输入处理和授权仍由 Python 服务端控制。"
+author: "bibi45"
+publishedAt: "2020-06-08"
+tag: "Backend"
+---
+
+模板文件放在 `templates`，静态资源放在 `static`，由应用或前置 CDN 提供。将用户输入输出到 HTML 时保持默认转义，不要为了方便关闭自动转义。
+
+生产环境的静态文件通常由反向代理或对象存储/CDN 托管。构建产物的缓存策略应带版本号，避免用户长期拿到旧的 CSS 或 JavaScript。

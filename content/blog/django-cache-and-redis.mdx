@@ -1,0 +1,16 @@
+---
+title: "Django 缓存与 Redis：缓存不是数据库替身"
+summary: "缓存用来降低读取成本，但必须接受过期、丢失和失效策略。"
+author: "bibi45"
+publishedAt: "2020-09-10"
+tag: "Backend"
+---
+
+Redis 适合短期缓存、限流计数、会话或队列等场景。缓存项必须带 TTL、命名空间和明确的失效方式。
+
+```python
+key = f"product:{product_id}:summary"
+cache.set(key, payload, timeout=300)
+```
+
+权威数据仍在数据库或专用存储中。不要把密码、令牌或未加密个人数据放进共享缓存，也不要假设缓存一定存在。

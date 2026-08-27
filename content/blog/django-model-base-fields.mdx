@@ -1,0 +1,20 @@
+---
+title: "Django 模型基类：统一审计字段，不隐藏领域语义"
+summary: "抽取 created_at、updated_at 等共性字段，同时让关键业务状态仍显式存在。"
+author: "bibi45"
+publishedAt: "2020-09-30"
+tag: "Backend"
+---
+
+抽象基类可以减少每张表重复声明时间戳和软删除字段。
+
+```python
+class TimestampedModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+```
+
+订单状态、权限范围、库存和金额是领域概念，不能被通用基类模糊掉。删除策略也应按模型分别设计。

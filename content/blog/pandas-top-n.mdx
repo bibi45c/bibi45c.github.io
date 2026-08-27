@@ -1,0 +1,15 @@
+---
+title: "Pandas Top N：nlargest 与 nsmallest 的正确前提"
+summary: "快速取极值前，先处理空值、类型和并列排序。"
+author: "bibi45"
+publishedAt: "2019-12-02"
+tag: "Data Engineering"
+---
+
+`nlargest` 和 `nsmallest` 比完整排序后再切片更直接，适合数值列的前 N 名分析。
+
+```python
+top_customers = df.dropna(subset=["revenue"]).nlargest(10, "revenue")
+```
+
+若排名影响业务决策，应定义并列时的第二排序键和统计口径。字符串金额、混合币种或未去重记录不能直接拿来排序。

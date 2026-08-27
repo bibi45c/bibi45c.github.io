@@ -1,0 +1,20 @@
+---
+title: "DRF 嵌套序列化：读模型容易，写模型要显式设计"
+summary: "关联对象的输出可以嵌套；写入时必须定义创建、更新和删除语义。"
+author: "bibi45"
+publishedAt: "2020-07-20"
+tag: "Backend"
+---
+
+嵌套 Serializer 很适合返回详情页所需的关联信息，但可写嵌套结构没有通用默认答案。
+
+```python
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ["id", "items", "total"]
+```
+
+当客户端要提交 `items` 时，先决定缺失项是保留、删除还是错误；再在事务内实现。不要因为方便而把整个关联对象开放为可写输入。

@@ -1,0 +1,50 @@
+---
+title: "Flask API 基础：应用发现、错误处理与数据库会话"
+summary: "将 Flask、Flask-RESTful 和 SQLAlchemy 学习笔记统一为更贴近当前项目的 API 基线。"
+author: "bibi45"
+publishedAt: "2020-04-10"
+tag: "Backend"
+---
+
+Flask 项目应从清晰的应用入口与请求边界开始。开发时推荐显式告诉 CLI 应用在哪里，而不是依赖当前目录和环境变量碰巧被识别。
+
+```bash
+flask --app myapp:create_app run --debug
+flask --app myapp routes
+```
+
+`flask run` 是开发服务器，不应直接作为生产服务。生产环境应放在受支持的 WSGI/ASGI 部署方案之后，并把调试模式关闭。
+
+## API 的最小边界
+
+应用工厂负责创建 Flask 实例和扩展；蓝图按业务能力划分路由；请求体必须显式校验；异常应映射为稳定且不泄露内部细节的 JSON 响应。身份认证与授权应在业务写入前执行，而不是由前端页面决定。
+
+```python
+def create_app():
+    app = Flask(__name__)
+    app.register_blueprint(api_bp, url_prefix="/api")
+
+    @app.errorhandler(ValidationError)
+    def handle_validation_error(error):
+        return {"error": "validation_error", "details": error.messages}, 400
+
+    return app
+```
+
+## SQLAlchemy 2.x 的会话边界
+
+旧笔记中的 `Model.query` 和到处调用 `commit()` 的写法可以工作，但会让事务边界模糊。较清晰的做法是：每个请求或业务操作拥有一个短生命周期 `Session`，由外围负责提交、回滚和关闭。
+
+```python
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+with Session(engine) as session:
+    with session.begin():
+        user = session.scalar(select(User).where(User.email == email))
+        if user is None:
+            user = User(email=email)
+            session.add(user)
+```
+
+密码字段只能保存经过专用密码哈希函数处理的结果；示例账户、邮箱和连接串也不应照搬到公开仓库。关于命令行应用发现与开发服务器限制，见 [Flask CLI 文档](https://flask.palletsprojects.com/en/stable/cli/)；会话与事务边界见 [SQLAlchemy Session 文档](https://docs.sqlalchemy.org/en/20/orm/session_basics.html)。

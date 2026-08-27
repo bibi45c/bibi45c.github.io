@@ -1,0 +1,17 @@
+---
+title: "Flask URL Converter：让路径参数先通过类型约束"
+summary: "路径规则可以表达整数、UUID 等基本约束，但不能代替对象授权。"
+author: "bibi45"
+publishedAt: "2020-06-05"
+tag: "Backend"
+---
+
+路由转换器可减少无效请求进入业务层。
+
+```python
+@app.get("/projects/<uuid:project_id>")
+def get_project(project_id):
+    ...
+```
+
+自定义转换器适合稳定、可测试的语法规则。不要用过度宽松的正则把任意字符串当作资源标识，也不要认为“格式正确”就代表当前用户有权访问。

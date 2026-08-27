@@ -1,0 +1,15 @@
+---
+title: "Celery 异步任务：把慢操作移出请求，但保留可靠性"
+summary: "邮件、生成报表和通知适合异步；关键数据库写入仍应先在事务中完成。"
+author: "bibi45"
+publishedAt: "2020-10-20"
+tag: "DevOps"
+---
+
+异步任务应传递稳定标识而不是大型对象或敏感上下文，并能安全重试。
+
+```python
+transaction.on_commit(lambda: send_receipt.delay(order.id))
+```
+
+`on_commit` 避免任务在数据库回滚后仍读取不存在的订单。任务处理器必须幂等，并设置超时、重试上限、失败告警和死信处理策略。

@@ -1,0 +1,16 @@
+---
+title: "Pandas 中文文本与编码：把编码当作输入契约"
+summary: "读取失败或乱码通常不是 Pandas 问题，而是文件编码与数据来源没有被说明。"
+author: "bibi45"
+publishedAt: "2020-01-12"
+tag: "Data Engineering"
+---
+
+CSV 在不同系统导出时可能是 UTF-8、UTF-8 with BOM 或本地编码。不要用猜测式重试替代数据契约。
+
+```python
+df = pd.read_csv("input.csv", encoding="utf-8-sig")
+df.to_csv("output.csv", index=False, encoding="utf-8")
+```
+
+写出前验证中文列名和关键文本的 round-trip 结果。图表的中文字体配置属于运行环境问题，应与数据处理逻辑分开管理。

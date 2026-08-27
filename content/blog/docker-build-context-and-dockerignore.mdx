@@ -1,0 +1,20 @@
+---
+title: "Docker 构建上下文与 .dockerignore"
+summary: "镜像构建只应看到需要的文件，避免把缓存、密钥和无关文件送入 Docker daemon。"
+author: "bibi45"
+publishedAt: "2021-03-08"
+tag: "DevOps"
+---
+
+`docker build` 会把构建上下文发送给构建器。上下文过大既拖慢构建，也可能把 `.env`、Git 历史或本地数据库带进镜像层。
+
+```text
+.git
+.env
+__pycache__/
+.venv/
+node_modules/
+*.log
+```
+
+在 `.dockerignore` 中默认排除不需要的内容，再通过 `COPY` 精确加入源码和依赖清单。构建前检查最终镜像层，确认没有机密或开发缓存。

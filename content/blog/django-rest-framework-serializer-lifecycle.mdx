@@ -1,0 +1,56 @@
+---
+title: "Django REST Framework：序列化、校验与保存的边界"
+summary: "把零散的 Serializer 笔记整理为一条可维护的请求处理链，并澄清 create/update 何时需要自定义。"
+author: "bibi45"
+publishedAt: "2020-06-15"
+tag: "Backend"
+---
+
+DRF 的序列化器不只是 JSON 转换器。一次写请求通常经过：解析输入、字段校验、业务校验、持久化、响应序列化。把这些职责分开，接口会更容易测试，也不容易把权限或事务逻辑遗漏在视图里。
+
+## 基本写入流程
+
+```python
+serializer = ProductSerializer(data=request.data)
+serializer.is_valid(raise_exception=True)
+product = serializer.save(owner=request.user)
+return Response(ProductSerializer(product).data, status=201)
+```
+
+传入 `data` 且没有 `instance` 时，`save()` 会走创建路径；传入已有实例时会走更新路径。部分更新还需要明确使用 `partial=True`。不要在调用 `is_valid()` 之前读取 `validated_data`，也不要把客户端提交的 owner、角色或价格信任为最终值。
+
+## 什么时候要重写 create 或 update
+
+对普通模型字段，`ModelSerializer` 已提供默认的 `create()` 和 `update()`，不需要为了“保存”而重写。应当只在保存需要额外业务步骤时自定义，例如：
+
+- 写入可写嵌套对象，并明确创建、更新、删除的语义；
+- 对密码等敏感字段做正确的哈希处理；
+- 在同一事务中写入多个模型；
+- 将领域规则放在服务层后，由序列化器调用该服务。
+
+```python
+from django.db import transaction
+from rest_framework import serializers
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["id", "items", "shipping_address"]
+
+    def create(self, validated_data):
+        request = self.context["request"]
+        with transaction.atomic():
+            return create_order_for_user(request.user, validated_data)
+```
+
+可写嵌套更新没有唯一正确的默认行为：缺失的子项到底代表保留、删除还是报错，必须由产品规则定义并测试。批量更新也应显式设计标识、插入和删除策略。
+
+## 放置规则的原则
+
+- 字段格式与单字段约束：字段声明或 `validate_field()`。
+- 跨字段规则：`validate()`。
+- 与当前登录用户相关的规则：从 `serializer.context` 或服务层取得，不从请求体信任。
+- 跨模型的库存、订单、权限等规则：服务层加事务，序列化器只负责边界转换。
+
+这篇文章由旧 DRF 笔记合并重写；其中“所有序列化器都必须手写 create/update”的理解已移除。DRF 的 [Serializer 文档](https://www.django-rest-framework.org/api-guide/serializers/) 说明了 `Serializer` 与 `ModelSerializer` 的不同默认行为。

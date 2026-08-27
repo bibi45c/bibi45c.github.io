@@ -1,0 +1,19 @@
+---
+title: "DRF GenericAPIView：减少 CRUD 重复代码"
+summary: "用通用视图和 Mixin 表达常见资源接口，同时保留查询与权限控制点。"
+author: "bibi45"
+publishedAt: "2020-06-25"
+tag: "Backend"
+---
+
+`ListCreateAPIView`、`RetrieveUpdateDestroyAPIView` 等通用视图由 `GenericAPIView` 和 Mixin 组合而成，适合典型资源接口。
+
+```python
+class ProjectList(generics.ListCreateAPIView):
+    serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.filter(owner=self.request.user)
+```
+
+动态查询必须放在 `get_queryset()`，不要直接复用已求值的 `self.queryset`。这样既不会意外缓存结果，也能把数据范围限制在当前用户可见对象内。

@@ -1,0 +1,18 @@
+---
+title: "DRF 分页：让列表接口可预测"
+summary: "分页不只是前端体验，也是在保护数据库和 API 响应大小。"
+author: "bibi45"
+publishedAt: "2020-07-28"
+tag: "Backend"
+---
+
+列表接口应给出固定分页策略、合理上限和稳定排序。没有排序的 offset 分页会在并发写入时产生重复或漏项。
+
+```python
+class DefaultPagination(PageNumberPagination):
+    page_size = 20
+    page_size_query_param = "page_size"
+    max_page_size = 100
+```
+
+数据量大或持续新增的列表可考虑 cursor pagination。无论哪种方式，都不要允许客户端请求无限大的 `page_size`。

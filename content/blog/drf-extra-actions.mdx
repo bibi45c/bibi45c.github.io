@@ -1,0 +1,19 @@
+---
+title: "DRF @action：为资源添加非 CRUD 操作"
+summary: "将资源相关但不属于标准 CRUD 的操作建模为显式 action。"
+author: "bibi45"
+publishedAt: "2020-07-08"
+tag: "Backend"
+---
+
+例如“归档一个项目”属于项目资源的动作，但不是普通字段更新。用 `@action` 保持它与资源的关系，同时单独声明方法和权限。
+
+```python
+@action(detail=True, methods=["post"], permission_classes=[IsOwner])
+def archive(self, request, pk=None):
+    project = self.get_object()
+    project.archive()
+    return Response(status=204)
+```
+
+`detail=True` 表示 URL 作用于单个对象；集合操作用 `detail=False`。不要手动绕过 Router 绑定 action，否则 action 级别的策略可能没有生效。

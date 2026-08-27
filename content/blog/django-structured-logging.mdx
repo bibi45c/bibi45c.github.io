@@ -1,0 +1,15 @@
+---
+title: "Django 日志：可定位问题，也不泄露数据"
+summary: "日志要有等级、请求关联和轮转策略；敏感输入必须脱敏。"
+author: "bibi45"
+publishedAt: "2020-10-10"
+tag: "DevOps"
+---
+
+日志建议包含时间、级别、服务名、请求或任务 ID 和可操作上下文。开发和生产环境可有不同输出目标，但都不应记录密码、Cookie、Authorization 头或完整个人资料。
+
+```python
+logger.info("order_created", extra={"order_id": order.id, "request_id": request_id})
+```
+
+轮转与保留期由平台或日志系统管理；记录异常时使用 `logger.exception` 保留堆栈，但访问权限应被控制。

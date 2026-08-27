@@ -1,0 +1,15 @@
+---
+title: "容器化 Python 服务：开发服务器与生产进程"
+summary: "把启动命令、健康检查和反向代理边界写清楚。"
+author: "bibi45"
+publishedAt: "2021-03-25"
+tag: "DevOps"
+---
+
+Flask 或 Django 的开发服务器适合本地调试，不应直接承担公网生产流量。生产镜像应启动受支持的应用服务器，并由部署平台处理 TLS、重启和扩缩容。
+
+```dockerfile
+HEALTHCHECK --interval=30s CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"
+```
+
+健康检查只验证服务可用性；不要让它依赖外部支付、邮件等不稳定系统，否则容易把短暂依赖故障误判为应用故障。

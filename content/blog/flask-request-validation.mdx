@@ -1,0 +1,17 @@
+---
+title: "Flask 请求输入：先解析，再校验，再执行业务"
+summary: "避免把 request.json 当作可信字典，建立清晰的 API 输入边界。"
+author: "bibi45"
+publishedAt: "2020-04-28"
+tag: "Backend"
+---
+
+请求体、路径参数、查询参数和上传文件都来自不可信客户端。接口应先检查 Content-Type，再用 schema 验证类型、范围和必填字段。
+
+```python
+payload = request.get_json(silent=False)
+data = CreateProjectSchema().load(payload)
+project = service.create_project(current_user, data)
+```
+
+把数据转换和验证放在 schema 层，把权限和事务放在服务层。不要让客户端提交 owner、角色或审核状态后直接写进模型。

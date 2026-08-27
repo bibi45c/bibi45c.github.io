@@ -1,0 +1,16 @@
+---
+title: "Dockerfile 的 COPY 与 ADD：默认选择 COPY"
+summary: "COPY 的行为更直白；ADD 的额外能力只有在确实需要时才使用。"
+author: "bibi45"
+publishedAt: "2021-03-05"
+tag: "DevOps"
+---
+
+`COPY` 把构建上下文中的文件复制进镜像，是应用源码和配置的默认选择。
+
+```dockerfile
+COPY pyproject.toml uv.lock ./
+COPY src/ ./src/
+```
+
+`ADD` 还有自动解压本地 tar 文件和处理 URL 等额外语义，容易让镜像来源不清晰。远程依赖应由明确的下载命令、校验和或包管理器处理，而不是隐藏在 `ADD` 中。

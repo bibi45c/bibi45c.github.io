@@ -1,0 +1,19 @@
+---
+title: "DRF 中 APIView 与 Response 的职责"
+summary: "何时从 Django View 切换到 DRF 的 APIView，以及为什么响应应交给 Response。"
+author: "bibi45"
+publishedAt: "2020-06-20"
+tag: "Backend"
+---
+
+`APIView` 适合需要自定义请求流程的接口。它接收 DRF 的 `Request`，可返回 `Response`，由框架完成内容协商和渲染。
+
+```python
+class HealthView(APIView):
+    permission_classes = []
+
+    def get(self, request):
+        return Response({"status": "ok"})
+```
+
+业务失败应使用明确的 HTTP 状态和稳定错误码，不要把 Python 异常文本直接返回给客户端。简单 CRUD 优先考虑通用视图；需要特殊流程时再使用 `APIView`。

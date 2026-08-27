@@ -1,0 +1,18 @@
+---
+title: "Flask Cookie 与 Session：浏览器状态的安全边界"
+summary: "Cookie 能被客户端保存，不代表客户端可以被信任。"
+author: "bibi45"
+publishedAt: "2020-05-11"
+tag: "Backend"
+---
+
+Cookie 适合保存小型客户端状态；Session 适合关联服务器端会话或签名数据。两者都不应用来保存明文密码、长期令牌或授权结论。
+
+```python
+response.set_cookie(
+    "session_id", value=session_id, httponly=True,
+    secure=True, samesite="Lax"
+)
+```
+
+生产环境需要 HTTPS、合理过期时间、登出失效和 CSRF 防护策略。`HttpOnly` 防止 JavaScript 读取 Cookie，但不能替代输入校验或服务端授权。

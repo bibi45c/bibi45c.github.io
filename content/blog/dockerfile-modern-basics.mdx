@@ -1,0 +1,40 @@
+---
+title: "现代 Dockerfile：从指令记忆到可复现镜像"
+summary: "保留 Dockerfile 基础概念，但改用可复现、较小且不携带机密的构建方式。"
+author: "bibi45"
+publishedAt: "2021-03-01"
+tag: "DevOps"
+---
+
+Dockerfile 的关键不是把部署命令逐行搬进镜像，而是让构建输入明确、缓存有效、运行时最小化。`FROM` 定义构建阶段，`RUN` 在构建时执行，`CMD` 提供默认参数，`ENTRYPOINT` 定义默认可执行程序。
+
+## 一个适合 Python 服务的起点
+
+```dockerfile
+FROM python:3.12-slim
+
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+RUN useradd --create-home appuser
+USER appuser
+
+EXPOSE 8000
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+```
+
+版本要依据项目的兼容性策略固定；对生产供应链，还应定期更新基础镜像并考虑以 digest 固定。`requirements.txt` 先复制能让依赖层被缓存，`.dockerignore` 则应排除虚拟环境、构建产物、日志、`.env` 和密钥文件。
+
+## 常见误解
+
+- `EXPOSE 8000` 只声明容器预期监听的端口，**不会**发布端口；运行时仍使用 `-p 主机端口:容器端口`。
+- 不要把密码、令牌、私有证书或生产配置写进 `ENV`、`ARG` 或镜像层。构建期密钥应使用构建系统的 secret 机制，运行期机密由部署环境注入。
+- 用 `LABEL org.opencontainers.image.source=...` 等键值元数据；不要保留个人邮箱作为维护者标签。
+- `ENTRYPOINT` 和 `CMD` 适合配合使用时应优先使用 exec form，避免不必要的 shell 信号转发问题。
+
+当镜像既要编译又要运行时，使用多阶段构建，把编译器、测试工具和缓存留在构建阶段。Docker 的 [Dockerfile reference](https://docs.docker.com/reference/dockerfile/) 也明确说明了 `EXPOSE` 的文档性质与 `LABEL` 的元数据用途。

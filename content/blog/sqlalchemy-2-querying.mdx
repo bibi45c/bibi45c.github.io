@@ -1,0 +1,17 @@
+---
+title: "SQLAlchemy 2.x 查询：select 与 Session.scalars"
+summary: "从旧式 Model.query 迁移到显式 select 和短生命周期 Session。"
+author: "bibi45"
+publishedAt: "2020-05-25"
+tag: "Backend"
+---
+
+SQLAlchemy 2.x 以 `select()` 和 `Session.execute()` 或 `Session.scalars()` 为主。查询意图和事务边界因此更清晰。
+
+```python
+statement = select(User).where(User.email == email)
+with Session(engine) as session:
+    user = session.scalar(statement)
+```
+
+所有外部输入都通过 SQLAlchemy 表达式绑定参数，不通过字符串拼接 SQL。列表查询还应设置排序和上限，避免无界扫描。

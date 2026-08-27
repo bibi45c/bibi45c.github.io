@@ -1,0 +1,16 @@
+---
+title: "Docker CMD 与 ENTRYPOINT：默认命令如何组合"
+summary: "用 exec form 保持参数覆盖和进程信号处理可预测。"
+author: "bibi45"
+publishedAt: "2021-03-11"
+tag: "DevOps"
+---
+
+`ENTRYPOINT` 定义容器默认执行的程序，`CMD` 提供默认参数。两者配合时使用 JSON exec form。
+
+```dockerfile
+ENTRYPOINT ["python", "-m", "http.server"]
+CMD ["8000"]
+```
+
+运行时传入参数可覆盖 `CMD`。不要因为 shell form 写起来短就使用它：额外 shell 会改变参数展开和终止信号传递行为。

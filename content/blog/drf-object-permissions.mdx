@@ -1,0 +1,16 @@
+---
+title: "DRF 对象权限：列表过滤与详情检查缺一不可"
+summary: "对象级权限不能只依赖详情接口；列表查询也必须从源头缩小范围。"
+author: "bibi45"
+publishedAt: "2020-08-01"
+tag: "Backend"
+---
+
+对象权限通常在 `get_object()` 时执行，因此它能保护 retrieve、update 和 destroy；但列表接口不会自动逐条检查所有对象。
+
+```python
+def get_queryset(self):
+    return Document.objects.filter(team__members=self.request.user)
+```
+
+先用 `get_queryset()` 限定可见集合，再为单对象操作配置对象权限。避免先根据 URL 直接查询对象、之后才判断归属，否则容易产生越权读取。

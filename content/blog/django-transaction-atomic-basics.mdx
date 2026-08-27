@@ -1,0 +1,17 @@
+---
+title: "Django transaction.atomic：把一项业务写入作为整体"
+summary: "订单、库存和关联记录等多表写入需要明确的事务边界。"
+author: "bibi45"
+publishedAt: "2020-08-26"
+tag: "Backend"
+---
+
+当一个业务操作涉及多条写入时，使用 `transaction.atomic()`：任何一步失败都回滚，而不是留下半完成数据。
+
+```python
+with transaction.atomic():
+    order = Order.objects.create(customer=request.user)
+    OrderItem.objects.create(order=order, sku=sku, quantity=quantity)
+```
+
+事务应尽量短，不要在其中等待外部 HTTP 调用、发送邮件或处理大文件。外部副作用可在成功提交后通过任务队列执行。

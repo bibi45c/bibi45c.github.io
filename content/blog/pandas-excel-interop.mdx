@@ -1,0 +1,16 @@
+---
+title: "Pandas 与 Excel：导出供人审阅，不等于数据建模"
+summary: "Excel 文件适合交付和复核，但类型、公式和工作表约束需要明确。"
+author: "bibi45"
+publishedAt: "2020-02-05"
+tag: "Data Engineering"
+---
+
+导出 Excel 前先整理列顺序、日期格式、空值和敏感字段；大文件则需要考虑内存和分 sheet 策略。
+
+```python
+with pd.ExcelWriter("out/report.xlsx") as writer:
+    summary.to_excel(writer, sheet_name="summary", index=False)
+```
+
+不要把公式计算结果、展示格式和源数据混为一谈。可复现分析应保留生成脚本与原始数据版本，而不是只保留最终工作簿。

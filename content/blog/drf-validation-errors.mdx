@@ -1,0 +1,18 @@
+---
+title: "DRF 校验：从 is_valid 到可读的错误响应"
+summary: "把格式校验、跨字段规则和错误返回放在清晰的边界中。"
+author: "bibi45"
+publishedAt: "2020-07-16"
+tag: "Backend"
+---
+
+写入数据的固定起点是 `serializer.is_valid(raise_exception=True)`。它会让 DRF 生成一致的 400 响应，避免每个视图重复处理错误。
+
+```python
+def validate(self, attrs):
+    if attrs["start_at"] >= attrs["end_at"]:
+        raise serializers.ValidationError("start_at must be before end_at")
+    return attrs
+```
+
+单字段规则使用字段参数或 `validate_字段名`；跨字段规则用 `validate`。数据库唯一约束和并发约束仍需在持久化层兜底。

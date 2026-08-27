@@ -1,0 +1,16 @@
+---
+title: "Docker 数据卷：容器可替换，状态应独立"
+summary: "应用容器适合无状态运行；需要保留的数据必须有明确的存储与备份边界。"
+author: "bibi45"
+publishedAt: "2021-03-14"
+tag: "DevOps"
+---
+
+容器文件系统会随着容器删除而消失。数据库、用户上传和长期任务输出不应只存在于可写容器层。
+
+```bash
+docker volume create app-data
+docker run --mount source=app-data,target=/var/lib/app image:tag
+```
+
+开发环境可使用 bind mount；生产状态应选择具有访问控制、备份和恢复计划的数据库或对象存储。数据卷不是备份策略本身。

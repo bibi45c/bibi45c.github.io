@@ -1,0 +1,20 @@
+---
+title: "Flask 应用工厂：把初始化从模块副作用中移开"
+summary: "使用 create_app 让测试、配置切换和扩展初始化更清楚。"
+author: "bibi45"
+publishedAt: "2020-04-15"
+tag: "Backend"
+---
+
+应用工厂在调用时创建 Flask 实例，而不是在模块导入时立即连接数据库或读取生产配置。
+
+```python
+def create_app(config):
+    app = Flask(__name__)
+    app.config.from_mapping(config)
+    db.init_app(app)
+    app.register_blueprint(api_bp, url_prefix="/api")
+    return app
+```
+
+这样测试可以传入独立配置，开发和生产环境也不会靠散落的条件分支切换。扩展通常先创建对象、再通过 `init_app` 绑定应用。

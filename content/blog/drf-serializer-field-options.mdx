@@ -1,0 +1,16 @@
+---
+title: "DRF 字段选项：required、read_only 与 default"
+summary: "三个容易混淆的 Serializer 字段选项，分别控制输入要求、可写性与缺失值。"
+author: "bibi45"
+publishedAt: "2020-07-12"
+tag: "Backend"
+---
+
+`required=True` 要求反序列化输入提供字段；`read_only=True` 让字段只出现在输出；`default` 在输入缺失时提供值。它们不能代替业务授权。
+
+```python
+owner = serializers.PrimaryKeyRelatedField(read_only=True)
+priority = serializers.IntegerField(required=False, default=0, min_value=0)
+```
+
+例如 `owner` 必须由服务端从当前请求写入，而不是让客户端提交。更新接口还要区分字段缺失与显式 `null`，尤其是 `PATCH`。

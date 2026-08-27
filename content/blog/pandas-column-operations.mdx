@@ -1,0 +1,17 @@
+---
+title: "Pandas 列操作：新增、删除与重命名时保留数据契约"
+summary: "列变更看似简单，但会影响下游 schema、类型与空值处理。"
+author: "bibi45"
+publishedAt: "2019-11-28"
+tag: "Data Engineering"
+---
+
+新增或重命名列后，应检查类型、缺失值和下游依赖，而不是只看 DataFrame 是否能打印。
+
+```python
+df = df.rename(columns={"created": "created_at"})
+df["source"] = "legacy-import"
+df = df.drop(columns=["temporary_note"], errors="ignore")
+```
+
+优先返回新 DataFrame 或明确赋值，避免难以追踪的链式赋值。对生产管道，把列名和类型作为可测试的数据契约。

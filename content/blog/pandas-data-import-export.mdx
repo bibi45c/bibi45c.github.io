@@ -1,0 +1,40 @@
+---
+title: "Pandas 数据导入导出：CSV、TSV、Excel 与安全边界"
+summary: "从格式笔记中提炼一套可复现的数据读取、校验和输出实践。"
+author: "bibi45"
+publishedAt: "2019-11-20"
+tag: "Data Engineering"
+---
+
+CSV 与 TSV 适合交换简单的二维表，但它们不会自动保留所有数据类型、时区、公式或嵌套结构。导入时先定义数据契约，输出时让分隔符、编码、日期格式和缺失值策略显式化。
+
+```python
+from pathlib import Path
+import pandas as pd
+
+source = Path("data/scientists.tsv")
+df = pd.read_csv(
+    source,
+    sep="\t",
+    encoding="utf-8",
+    dtype={"scientist_id": "string"},
+    parse_dates=["created_at"],
+)
+
+required = {"scientist_id", "created_at"}
+missing = required - set(df.columns)
+if missing:
+    raise ValueError(f"Missing columns: {sorted(missing)}")
+
+df.to_csv("out/scientists.csv", index=False, encoding="utf-8")
+```
+
+## 实用检查清单
+
+- Windows 路径使用 `Path`、正斜杠或原始字符串，避免反斜杠转义带来的歧义。
+- 标识符列通常读取为 `string`，避免前导零被转换丢失。
+- 用 `index=False` 时才不会把 DataFrame 索引额外写入文件。
+- 与外部团队交换前，确认编码、分隔符、引号规则、空值表示和日期时区。
+- Excel 适合人工审阅；大数据量或需要稳定类型时，优先采用有 schema 的列式格式或数据库表。
+
+旧笔记提到 pickle。它适合受信任环境中的 Python 对象缓存，但**不能**反序列化来自不可信来源的 pickle 文件：反序列化可能执行任意代码。公开数据交换不要把 pickle 当作通用格式。

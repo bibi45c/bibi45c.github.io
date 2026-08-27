@@ -1,0 +1,19 @@
+---
+title: "Flask Blueprint：按业务能力组织路由"
+summary: "Blueprint 是模块化工具，不是权限边界；接口策略仍应在请求处理中明确。"
+author: "bibi45"
+publishedAt: "2020-04-22"
+tag: "Backend"
+---
+
+将 users、orders、admin 等路由拆进 Blueprint，能让路由、错误处理和测试更容易定位。
+
+```python
+api = Blueprint("api", __name__)
+
+@api.get("/projects")
+def list_projects():
+    return {"items": []}
+```
+
+应用通过 `register_blueprint(api, url_prefix="/api")` 挂载模块。不要因为路由位于 `admin` Blueprint 就默认它安全；认证和授权仍要在服务端逐请求检查。
