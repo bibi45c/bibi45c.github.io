@@ -3,9 +3,9 @@
 import { usePathname } from "next/navigation";
 import Avatar from "./Avatar";
 import Navbar from "./Navbar";
-import SignInAndOut from "./SignIn";
 import GithubIcon from "@/public/icons/GithubIcon";
 import Link from "next/link";
+import { site } from "@/lib/site";
 
 export default function Header() {
   const pathname = usePathname();
@@ -19,13 +19,12 @@ export default function Header() {
 
       <div className="flex items-center justify-end gap-2">
         <Link
-          href="https://github.com/eurooooo/zephyrlin.me"
+          href={site.github}
           target="_blank"
           className="opacity-80 hover:opacity-100"
         >
           <GithubIcon />
         </Link>
-        <SignInAndOut pathname={pathname} />
       </div>
     </header>
   );

@@ -6,56 +6,17 @@ export default function BasisInfo() {
       </h2>
       <ul className="flex flex-col gap-5 pl-6 text-sm list-disc">
         <li>
-          👋 You can call me <span className="font-bold">Zephyr</span>,{" "}
-          <span className="font-bold">Zhihao</span> or{" "}
-          <span className="font-bold">智昊</span>.
+          👋 I&apos;m <span className="font-bold">Jiayu Jiang</span>. This is a
+          long-term home for technical writing and project case studies.
         </li>
 
         <li>
-          🌎 Current Location:{" "}
-          <a
-            className="font-bold"
-            href="https://en.wikipedia.org/wiki/Changsha"
-            target="_blank"
-          >
-            Changsha, China
-          </a>
-          .
+          🧭 Current focus: data engineering, applied AI, DevSecOps, and
+          software systems.
         </li>
         <li>
-          ✈️ Lived in{" "}
-          <a
-            className="font-bold"
-            href="https://en.wikipedia.org/wiki/Minneapolis"
-            target="_blank"
-          >
-            Minneapolis
-          </a>
-          ,{" "}
-          <a
-            className="font-bold"
-            href="https://en.wikipedia.org/wiki/Amherst,_Massachusetts"
-            target="_blank"
-          >
-            Amherst
-          </a>
-          ,{" "}
-          <a
-            className="font-bold"
-            href="https://en.wikipedia.org/wiki/Shenzhen"
-            target="_blank"
-          >
-            Shenzhen
-          </a>
-          ,{" "}
-          <a
-            className="font-bold"
-            href="https://en.wikipedia.org/wiki/Wuhan"
-            target="_blank"
-          >
-            Wuhan
-          </a>
-          , in the past.
+          ✍️ Writing principle: keep useful notes public, version-controlled,
+          and easy to revisit.
         </li>
       </ul>
     </div>

@@ -1,4 +1,3 @@
-import { LoadingState } from "@/components/LoadingState";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function loading() {

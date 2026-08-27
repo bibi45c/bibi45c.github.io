@@ -13,12 +13,12 @@ export const navigationItems = [
     href: "/blog",
   },
   {
-    name: "Project",
+    name: "Projects",
     href: "/project",
   },
   {
-    name: "Message",
-    href: "/message",
+    name: "About",
+    href: "/about",
   },
 ];
 

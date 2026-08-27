@@ -1,5 +1,4 @@
 import { Newspaper } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function RecentUpdate({ blogs }) {
@@ -14,17 +13,7 @@ export default function RecentUpdate({ blogs }) {
           <li key={blog.slug}>
             <Link href={`/blog/${blog.slug}`}>
               <div className="relative rounded-2xl hover:shadow-[0_0px_2px_rgb(140,140,140)] shadow-[0_0px_1.2px_rgb(140,140,140)] opacity-70 hover:opacity-90">
-                <div
-                  href={`/blog/${blog.slug}`}
-                  className="relative aspect-[240/135] w-full "
-                >
-                  <Image
-                    src={blog.image}
-                    alt="Blog image"
-                    fill
-                    className="object-contain rounded-2xl"
-                  />
-                </div>
+                <div className="relative aspect-[240/135] w-full rounded-2xl bg-gradient-to-br from-cyan-300/20 via-slate-200/5 to-indigo-400/20" />
 
                 <div className="absolute right-0 bottom-0 left-0 p-4 rounded-lg backdrop-blur-md bg-black/60 dark:bg-black/70">
                   <h2 className="mb-2 font-bold text-white">{blog.title}</h2>

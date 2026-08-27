@@ -1,17 +1,12 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github } from "lucide-react";
 import SocialMediaLink from "./SocialMediaLink";
+import { site } from "@/lib/site";
 
 function Socials() {
   return (
     <div className="flex gap-6 ">
-      <SocialMediaLink link="https://www.linkedin.com/in/zhihao-lin1/">
-        <Linkedin />
-      </SocialMediaLink>
-      <SocialMediaLink link="https://github.com/eurooooo/">
+      <SocialMediaLink link={site.github}>
         <Github />
-      </SocialMediaLink>
-      <SocialMediaLink link="mailto:lzh910954163@gmail.com">
-        <Mail />
       </SocialMediaLink>
     </div>
   );

@@ -1,11 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export",
+  trailingSlash: true,
   images: {
-    remotePatterns: [
-      { hostname: "img.clerk.com" },
-      { hostname: "cdn.sanity.io" },
-      { hostname: "i.scdn.co" },
-    ],
+    unoptimized: true,
   },
   pageExtensions: ["js", "jsx", "mdx"],
 };

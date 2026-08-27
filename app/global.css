@@ -71,6 +71,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(84, 174, 176, 0.18), transparent 28rem),
+      radial-gradient(circle at 88% 32%, rgba(99, 102, 241, 0.13), transparent 26rem),
+      linear-gradient(135deg, #0b1517 0%, #101719 48%, #111426 100%);
+    background-attachment: fixed;
   }
 }
 

@@ -4,9 +4,6 @@ import Hero from "@/components/Hero";
 import SkillsBar from "@/components/SkillsBar";
 import RecentUpdate from "@/components/RecentUpdate";
 import BasisInfo from "@/components/BasicInfo";
-import Spotify from "@/components/Spotify";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Page() {
   const blogs = await getBlogs();
@@ -30,9 +27,6 @@ export default async function Page() {
         <aside className="lg:w-[680px] w-full lg:sticky lg:h-fit lg:-top-10 flex flex-col gap-12 rounded-2xl ">
           <BasisInfo />
           <SkillsBar />
-          {/* <Suspense fallback={<Skeleton />}>
-            <Spotify />
-          </Suspense> */}
         </aside>
       </section>
     </MotionDivWrapper>
