@@ -6,7 +6,7 @@ export default function BasisInfo() {
       </h2>
       <ul className="flex flex-col gap-5 pl-6 text-sm list-disc">
         <li>
-          👋 I&apos;m <span className="font-bold">Jiayu Jiang</span>. This is a
+          👋 I&apos;m <span className="font-bold">bibi45</span>. This is a
           long-term home for technical writing and project case studies.
         </li>
 

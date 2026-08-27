@@ -1,4 +1,4 @@
-# Jiayu Jiang — Personal Site
+# bibi45 — Personal Site
 
 A static personal website for technical writing, project case studies, and CV material.
 

@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="w-full border border-muted-foreground opacity-10 "></div>
       <div className="flex flex-col items-center justify-center h-24 gap-1 font-mono text-sm opacity-70">
         <p>
-          &copy; {new Date().getFullYear()} Jiayu Jiang. All rights reserved.
+          &copy; {new Date().getFullYear()} bibi45. All rights reserved.
         </p>
         <div className=" opacity-90">Built as a static, Git-owned site.</div>
       </div>

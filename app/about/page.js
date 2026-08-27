@@ -13,7 +13,7 @@ export default function AboutPage() {
       <section className="max-w-3xl space-y-5 rounded-2xl border border-foreground/15 bg-foreground/[0.03] p-8 text-sm leading-7 text-muted-foreground">
         <p className="text-foreground">
           This site is being rebuilt as a durable technical notebook and
-          portfolio for Jiayu Jiang.
+          portfolio for bibi45.
         </p>
         <p>
           It will contain selected writing on data engineering, AI systems,
