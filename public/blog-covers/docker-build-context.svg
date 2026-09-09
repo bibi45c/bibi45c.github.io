@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Docker build context flow</title>
+  <desc id="desc">Required project files pass through dockerignore into the build context.</desc>
+  <rect width="1200" height="675" fill="#0b1620"/>
+  <rect x="72" y="76" width="1056" height="523" rx="28" fill="#10232d" stroke="#214553" stroke-width="2"/>
+  <text x="120" y="148" fill="#e2e8f0" font-family="ui-monospace, monospace" font-size="32" font-weight="700">Docker build context</text>
+  <text x="120" y="190" fill="#7dd3fc" font-family="ui-monospace, monospace" font-size="20">send only the files the image needs</text>
+  <g fill="#19384a" stroke="#60a5fa" stroke-width="2"><rect x="130" y="275" width="110" height="70" rx="10"/><rect x="130" y="375" width="110" height="70" rx="10"/><rect x="130" y="475" width="110" height="70" rx="10"/></g>
+  <text x="155" y="318" fill="#dbeafe" font-family="ui-monospace, monospace" font-size="18">app/</text>
+  <text x="142" y="418" fill="#dbeafe" font-family="ui-monospace, monospace" font-size="18">lockfile</text>
+  <text x="143" y="518" fill="#dbeafe" font-family="ui-monospace, monospace" font-size="18">.env</text>
+  <path d="M270 410h130" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/><path d="M383 391l30 19-30 19" fill="none" stroke="#5eead4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="430" y="260" width="215" height="300" rx="18" fill="#123542" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="469" y="340" fill="#ccfbf1" font-family="ui-monospace, monospace" font-size="25">.dockerignore</text>
+  <path d="M464 402h145M464 448h105" stroke="#5eead4" stroke-width="3" stroke-linecap="round"/>
+  <text x="480" y="510" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="17">exclude .env</text>
+  <path d="M675 410h130" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/><path d="M788 391l30 19-30 19" fill="none" stroke="#5eead4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="835" y="305" width="200" height="210" rx="18" fill="#172f4a" stroke="#60a5fa" stroke-width="2"/>
+  <text x="873" y="392" fill="#dbeafe" font-family="ui-monospace, monospace" font-size="24">build</text><text x="855" y="427" fill="#dbeafe" font-family="ui-monospace, monospace" font-size="24">context</text>
+</svg>

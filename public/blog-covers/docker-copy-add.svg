@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Docker COPY and ADD comparison</title>
+  <desc id="desc">COPY is a direct file transfer, while ADD has extra behavior.</desc>
+  <rect width="1200" height="675" fill="#0b1620"/>
+  <rect x="72" y="76" width="1056" height="523" rx="28" fill="#10232d" stroke="#214553" stroke-width="2"/>
+  <text x="120" y="148" fill="#e2e8f0" font-family="ui-monospace, monospace" font-size="32" font-weight="700">COPY and ADD</text>
+  <text x="120" y="190" fill="#7dd3fc" font-family="ui-monospace, monospace" font-size="20">prefer the simplest instruction that fits</text>
+  <rect x="140" y="272" width="220" height="104" rx="16" fill="#123542" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="206" y="335" fill="#ccfbf1" font-family="ui-monospace, monospace" font-size="28">COPY</text>
+  <path d="M393 324h222" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/><path d="M598 305l30 19-30 19" fill="none" stroke="#5eead4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="419" y="366" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="18">direct files</text>
+  <rect x="140" y="438" width="220" height="104" rx="16" fill="#172f4a" stroke="#60a5fa" stroke-width="2"/>
+  <text x="215" y="501" fill="#dbeafe" font-family="ui-monospace, monospace" font-size="28">ADD</text>
+  <path d="M393 490h222" stroke="#60a5fa" stroke-width="5" stroke-linecap="round"/><path d="M598 471l30 19-30 19" fill="none" stroke="#60a5fa" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="405" y="532" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="18">extra behavior</text>
+  <rect x="690" y="303" width="320" height="205" rx="20" fill="#142938" stroke="#5eead4" stroke-width="2"/>
+  <text x="764" y="390" fill="#ccfbf1" font-family="ui-monospace, monospace" font-size="26">image layer</text>
+  <path d="M735 429h230" stroke="#2dd4bf" stroke-width="3" stroke-linecap="round"/>
+</svg>

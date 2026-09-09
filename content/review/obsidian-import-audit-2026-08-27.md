@@ -4,7 +4,7 @@
 来源 vault：`D:\code\obsidian_db\bibi`  
 原始笔记：303 篇 Markdown；本次未修改 vault 中的任何文件。
 
-公开 Blog 现有 61 篇 MDX：其中 59 篇来自本次旧笔记整理（7 篇综述 + 52 篇短文），另有 2 篇为 2026 年的站点说明。迁入文章的 `publishedAt` 已按简历时间线排在 2019-11 至 2021-03，早于 2021-08 开始的 Big Data Engineer 经历。
+公开 Blog 现有 62 篇 MDX：其中 60 篇来自本次旧笔记整理（7 篇综述 + 53 篇短文），另有 2 篇为 2026 年的站点说明。迁入文章的 `publishedAt` 已按简历时间线排在 2019-11 至 2021-03，早于 2021-08 开始的 Big Data Engineer 经历。
 
 ## 已迁入的主题
 
@@ -21,6 +21,7 @@
 | `django-project-configuration.mdx` | 商城项目准备、缓存、日志、数据库配置 | 移除固定旧版本与硬编码配置，改为部署基线 |
 | `pandas-csv-tsv-essentials.mdx`、`django-inventory-concurrency.mdx` | `Data Analysis/CSV TSV文件.md`、`商城并发问题.md` | 两篇均可公开；分别修正数据格式约定和库存原子扣减边界。 |
 | `django-email-verification-flow.mdx`、`docker-image-labels.mdx`、`sqlalchemy-insert-basics.mdx` | 邮箱验证、Docker 维护者标签、SQLAlchemy 新增示例 | 可公开为通用技术文章；所有邮箱和凭据均使用不可用占位值。 |
+| `navicat-local-test-connection-recovery.mdx` | Navicat 本地测试连接恢复 | 保留本地环境排查和恢复经验，改为重置、最小权限与配置管理方案。 |
 
 其余 47 篇短文按单一知识点拆分：DRF 的 APIView、GenericAPIView、Router、action、字段校验、嵌套表示、分页与对象权限；Flask 的工厂、Blueprint、请求校验、Cookie、错误处理、上下文与 SQLAlchemy；Docker 的构建上下文、`COPY`、`CMD`、数据卷和 secret；以及电商购物车、事务、缓存、日志、任务队列、搜索、权限、指标和上传边界。
 
@@ -31,7 +32,7 @@
 | `Notion/Learn Space/Web Spider/极验验证--滑块验证.md` | 排除 | 自动识别并拖动验证码缺口，属于绕过网站反自动化验证的实现；页面结构和检测策略也已高度易变。 |
 | `Notion/Learn Space/Web Spider/跳过阿里滑动验证码对selenium的校验.md` | 排除 | 通过修改自动化特征规避检测，不能作为公开工程实践。 |
 | `Notion/Learn Space/Web Spider/selenium 解决鼠标拖动滑块慢的问题.md`、`Copy of selenium模拟登录解决滑块验证问题.md`、`Copy of selenium 反反爬 滑块验证.md` | 排除 | 与验证码绕过链路直接相关。 |
-| `Notion/Learn Space/Web Spider/tips/navicat 导出已保存的密码.md` | 排除并建议本地加密保存 | 包含数据库账号、密码恢复/解密流程和疑似真实凭据。 |
+| `Notion/Learn Space/Web Spider/tips/navicat 导出已保存的密码.md` | 仅迁入安全复盘版 | 原文涉及已保存凭据恢复；Blog 版改为本地测试环境的账号重置、最小权限和配置记录。 |
 | `Notion/Learn Space/商城类项目要点/邮箱发送并验证逻辑.md` | 仅迁入脱敏重写版 | 原文包含邮件服务凭据；Blog 版只使用环境变量占位符。 |
 | `Notion/Learn Space/docker/DockerFile meiduo步骤.md` | 仅迁入脱敏重写版 | 原文维护者标签包含邮箱；Blog 版改为 OCI 风格非个人元数据。 |
 
