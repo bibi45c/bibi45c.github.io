@@ -1,0 +1,18 @@
+---
+title: "CSV 与 TSV：简单表格交换的最小约定"
+summary: "CSV 和 TSV 可以公开分享，但编码、分隔符、类型和缺失值必须写清楚。"
+author: "bibi45"
+publishedAt: "2019-11-18"
+tag: "Data Engineering"
+---
+
+CSV 以逗号分隔，TSV 以制表符分隔。两者都是轻量的表格交换格式，但不会自动保存 Python 数据类型、时区或嵌套结构。
+
+```python
+import pandas as pd
+
+df = pd.read_csv("data.tsv", sep="\t", encoding="utf-8")
+df.to_csv("out.csv", index=False, encoding="utf-8")
+```
+
+对外分享前应约定：列名、编码、空值表示、日期格式、分隔符和是否包含索引。对有前导零的编号列，读取时显式使用字符串类型，避免被错误转换为数字。

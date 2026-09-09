@@ -1,0 +1,16 @@
+---
+title: "Django 邮箱验证：凭据留在环境变量，令牌留在服务端"
+summary: "邮箱验证可以公开为流程设计，但 SMTP 账号与授权码不应进入代码或文章。"
+author: "bibi45"
+publishedAt: "2020-09-05"
+tag: "Backend"
+---
+
+注册后发送验证邮件时，应用只把用户 ID、短期令牌或一次性链接放入消息；SMTP 主机、发件地址与授权凭据由部署环境提供。
+
+```python
+EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+```
+
+令牌应有过期时间、单次使用语义和服务端验证；不能只依赖前端页面显示“验证成功”。日志中也不应记录完整验证链接或邮件服务授权码。

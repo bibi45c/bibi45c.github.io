@@ -1,0 +1,17 @@
+---
+title: "SQLAlchemy 新增记录：对象写入与测试数据边界"
+summary: "使用 Session 管理插入事务，并让示例账户保持不可识别。"
+author: "bibi45"
+publishedAt: "2020-05-22"
+tag: "Backend"
+---
+
+新增 ORM 对象后，要在明确的事务边界中提交。示例数据使用 `example.test` 这类保留域名和不可用密码，不复制真实邮箱、账号或凭据。
+
+```python
+with Session(engine) as session, session.begin():
+    user = User(email="demo@example.test")
+    session.add(user)
+```
+
+数据库密码必须先经过专用哈希函数处理；测试密码也不应被当成真实认证方案。示例的目标是说明数据关系，不是保存可用账户。

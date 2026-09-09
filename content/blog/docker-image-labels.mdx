@@ -1,0 +1,17 @@
+---
+title: "Docker 镜像标签：保留可追溯元数据，不暴露个人信息"
+summary: "使用 OCI 风格标签标记源码、版本与说明，避免把私人邮箱写进镜像。"
+author: "bibi45"
+publishedAt: "2021-02-20"
+tag: "DevOps"
+---
+
+镜像标签适合记录版本、源码地址和构建说明，便于排障与供应链追溯。
+
+```dockerfile
+LABEL org.opencontainers.image.title="example-service" \
+      org.opencontainers.image.source="https://github.com/example/project" \
+      org.opencontainers.image.version="1.0.0"
+```
+
+标签不应包含私人邮箱、令牌、内部主机名或客户信息。镜像维护责任应由仓库、团队和发布流程承载，而不是依赖单个个人地址。

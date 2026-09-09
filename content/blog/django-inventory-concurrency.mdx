@@ -1,0 +1,21 @@
+---
+title: "Django 库存并发：避免超卖的两种思路"
+summary: "库存检查与扣减必须在同一数据库操作或短事务内完成。"
+author: "bibi45"
+publishedAt: "2020-08-28"
+tag: "Backend"
+---
+
+多个用户同时结算同一 SKU 时，先查库存、后扣库存会产生竞态条件。悲观锁通过 `select_for_update()` 在事务内锁定记录；条件更新则把“库存足够”和“扣减库存”合在一条 SQL 中。
+
+```python
+updated = SKU.objects.filter(
+    pk=sku_id,
+    stock__gte=quantity,
+).update(stock=F("stock") - quantity)
+
+if updated != 1:
+    raise InsufficientStock()
+```
+
+无论选择哪一种，都要在下单流程中处理事务回滚和重复提交。库存逻辑可以公开讨论，但不能把它当作支付成功或订单幂等性的替代方案。
