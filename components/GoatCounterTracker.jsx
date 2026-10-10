@@ -14,7 +14,8 @@ export default function GoatCounterTracker() {
   useEffect(() => {
     if (!ready || !pathname || !window.goatcounter?.count) return;
 
-    const path = pathname === "/" ? "/" : `${pathname.replace(/\/$/, "")}/`;
+    // GoatCounter stores page paths without trailing slashes (except the root).
+    const path = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
     if (lastPath.current === path) return;
 
     window.goatcounter.count({ path });

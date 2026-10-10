@@ -44,7 +44,7 @@ export default async function Blog({ params }) {
 
           <p className="mb-2 text-sm text-muted-foreground">
             {publishedAt ?? ""} | {tag}
-            <ViewCount path={`/blog/${slug}/`} label="Views" prefix=" | " />
+            <ViewCount path={`/blog/${slug}`} label="Views" prefix=" | " />
           </p>
 
           <h1 className="mb-2 text-4xl font-bold">{title}</h1>

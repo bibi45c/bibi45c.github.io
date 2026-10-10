@@ -15,10 +15,18 @@ export default function ViewCount({ path, label, prefix = "" }) {
 
     fetch(url, { signal: controller.signal })
       .then((response) => {
-        if (!response.ok) throw new Error("GoatCounter count unavailable");
+        // GoatCounter returns a valid zero count with 404 for an unvisited path.
+        if (!response.ok && response.status !== 404) {
+          throw new Error("GoatCounter count unavailable");
+        }
         return response.json();
       })
-      .then((data) => setCount(data.count))
+      .then((data) => {
+        if (typeof data.count !== "string" && typeof data.count !== "number") {
+          throw new Error("GoatCounter count unavailable");
+        }
+        setCount(data.count);
+      })
       .catch(() => setCount(null));
 
     return () => controller.abort();

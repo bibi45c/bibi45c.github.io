@@ -33,8 +33,11 @@ variables → Actions → Variables**. Redeploy the site after setting the varia
 In GoatCounter, enable **Allow adding visitor counts on your website** and disable
 **Sessions** in site settings. This integration counts each page load or client-side navigation as a
 pageview, including reloads. The site total sums views across pages.
-Public counters may lag behind new visits by up to four hours. When the code is
-not configured or a count is unavailable, the site leaves the number hidden.
+Article tracking and counter lookups both use paths without a trailing slash,
+matching the paths stored by GoatCounter.
+Public counters may lag behind new visits by up to four hours, including cached
+zero counts during initial setup. Unvisited posts show zero; when the code is not
+configured or the service response is unavailable, the site leaves the number hidden.
 
 The tracker is served locally as `public/goatcounter.js` to avoid relying on
 the external script CDN. It is an unmodified copy from GoatCounter v2.7.0
