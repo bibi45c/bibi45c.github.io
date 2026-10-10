@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getBlogBySlug, getBlogs } from "@/lib/blog";
+import ViewCount from "@/components/ViewCount";
 
 export default async function Blog({ params }) {
   const { slug } = params;
@@ -43,6 +44,7 @@ export default async function Blog({ params }) {
 
           <p className="mb-2 text-sm text-muted-foreground">
             {publishedAt ?? ""} | {tag}
+            <ViewCount path={`/blog/${slug}/`} label="Views" prefix=" | " />
           </p>
 
           <h1 className="mb-2 text-4xl font-bold">{title}</h1>

@@ -1,3 +1,5 @@
+import ViewCount from "@/components/ViewCount";
+
 export default function Footer() {
   return (
     <div className="w-full mt-20 text-muted-foreground ">
@@ -7,6 +9,7 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} bibi45. All rights reserved.
         </p>
         <div className=" opacity-90">Built as a static, Git-owned site.</div>
+        <ViewCount path="TOTAL" label="Total views" />
       </div>
     </div>
   );
