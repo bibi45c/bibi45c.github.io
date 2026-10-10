@@ -30,11 +30,17 @@ site, then add its site code (the part before `.goatcounter.com`) as the GitHub
 Actions repository variable `GOATCOUNTER_CODE` under **Settings → Secrets and
 variables → Actions → Variables**. Redeploy the site after setting the variable.
 
-In GoatCounter, enable **Allow adding visitor counts on your website** in site
-settings. This integration counts each page load or client-side navigation as a
+In GoatCounter, enable **Allow adding visitor counts on your website** and disable
+**Sessions** in site settings. This integration counts each page load or client-side navigation as a
 pageview, including reloads. The site total sums views across pages.
 Public counters may lag behind new visits by up to four hours. When the code is
 not configured or a count is unavailable, the site leaves the number hidden.
+
+The tracker is served locally as `public/goatcounter.js` to avoid relying on
+the external script CDN. It is an unmodified copy from GoatCounter v2.7.0
+([official source](https://github.com/arp242/goatcounter/blob/v2.7.0/public/count.js),
+Git blob `b40052dc29f58fba1dd4b90efedf2934c65e7bf0`), with its ISC license header retained.
+Update this file explicitly when upgrading the tracker.
 
 For local testing, set `NEXT_PUBLIC_GOATCOUNTER_CODE` in `.env.local` and run
 `npm run dev`. GoatCounter ignores localhost visits by default.

@@ -17,7 +17,7 @@ export default function GoatCounterTracker() {
     const path = pathname === "/" ? "/" : `${pathname.replace(/\/$/, "")}/`;
     if (lastPath.current === path) return;
 
-    window.goatcounter.count({ path, no_session: true });
+    window.goatcounter.count({ path });
     lastPath.current = path;
   }, [pathname, ready]);
 
@@ -25,7 +25,7 @@ export default function GoatCounterTracker() {
 
   return (
     <Script
-      src="https://gc.zgo.at/count.js"
+      src="/goatcounter.js"
       data-goatcounter={`https://${code}.goatcounter.com/count`}
       data-goatcounter-settings='{"no_onload":true}'
       strategy="afterInteractive"
