@@ -1,0 +1,2 @@
+# Preserve the accepted upstream standalone viewer bytes on every platform.
+public/architecture/hex-tactics/*.html -text

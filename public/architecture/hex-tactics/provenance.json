@@ -1,0 +1,12 @@
+{
+  "sourceRepository": "https://github.com/bibi45c/UEA-CMP-SEM2-GAME-Turn_Based_Strategy",
+  "deliveryRevision": "55ed3db26cce287c6326080a625e165723e430cc",
+  "evidenceRevision": "42f3a2b8d6bc3e4b847abec1f34cae841fda204d",
+  "generator": "Archify 2.17.0-dev.1",
+  "files": {
+    "index.html": {"source": "site/index.html", "sha256": "0c337d055885387bc23aaf8a6a513ffdea9cea3d26230c1606df3fcca26bf9f8"},
+    "en.html": {"source": "site/en.html", "sha256": "60f7cf49bd77fb530e9d87d550d12cb5b61d16dc87a62989694c372ac09d1e2a"},
+    "preview-light.png": {"source": "Docs/Architecture_Preview_EN.png", "sha256": "85a768e580fde30fb55adc1d3d3dff0b0dc93a3079fc74facf3c20b9e2cdeec9"},
+    "preview-dark.png": {"source": "Docs/Architecture_Preview_EN_Dark.png", "sha256": "2f529703847f78170c4c68a4d07dc6e784d6de16b29ebf32c4b494c6297696bb"}
+  }
+}
