@@ -23,6 +23,17 @@ npm run dev
 3. Push to `main`; the workflow at `.github/workflows/deploy.yml` will publish the generated `out/` folder.
 4. Add a custom domain later in GitHub Pages settings when the domain is ready.
 
+## Interactive architecture
+
+The Projects page links to the Hex Tactics Archify viewers:
+
+- Chinese: https://bibi45c.github.io/architecture/hex-tactics/
+- English: https://bibi45c.github.io/architecture/hex-tactics/en.html
+
+These self-contained HTML files are published from `public/architecture/hex-tactics/` without modifying their accepted upstream bytes. Editable JSON and source evidence remain in [the game repository](https://github.com/bibi45c/UEA-CMP-SEM2-GAME-Turn_Based_Strategy); `provenance.json` records the delivery commit, architecture evidence commit and file hashes. Do not hand-edit the generated viewers. To refresh them, validate and deliver in the game repository, copy the accepted HTML/preview files here and update the provenance hashes. Run `node scripts/check-architecture-bundle.mjs`, build, then run it again with `--export` before publishing.
+
+The older `/UEA-CMP-SEM2-GAME-Turn_Based_Strategy/` and `/UEA-CMP-SEM2-GAME-Turn_Based_Strategy/en.html` paths redirect to these blog-hosted viewers, keeping existing game README links usable. No separate game-repository Pages site or DNS change is needed. If a separate game Pages site is enabled later, it may take precedence over those compatibility paths; use the canonical architecture URLs above.
+
 ## Visit counts
 
 The site uses GoatCounter for per-post counts and the site total. Create a GoatCounter
