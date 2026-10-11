@@ -31,6 +31,8 @@ jobs:
         run: node scripts/check-architecture-bundle.mjs
       - name: Verify languages and article translations
         run: node scripts/check-bilingual.mjs
+      - name: Verify article recommendations
+        run: node scripts/check-recommendations.mjs
       - name: Build
         run: npm run build
         env:
@@ -39,6 +41,8 @@ jobs:
         run: node scripts/check-architecture-bundle.mjs --export
       - name: Verify bilingual pages and exported links
         run: node scripts/check-bilingual.mjs --export
+      - name: Verify exported recommendation cards
+        run: node scripts/check-recommendations.mjs --export
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

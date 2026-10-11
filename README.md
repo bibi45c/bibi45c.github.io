@@ -59,6 +59,28 @@ The older `/UEA-CMP-SEM2-GAME-Turn_Based_Strategy/` and `/UEA-CMP-SEM2-GAME-Turn
 
 ## Visit counts
 
+The homepage's **Read next / 接着读** card sits beside the introduction on desktop
+and below it on smaller screens. It recommends the two most-read articles and
+one random article from the remaining catalog. **Another one / 换一篇** changes
+only the random article and avoids immediately repeating it when another is
+available. The current random pick survives language changes within the same
+browser tab.
+
+`npm run build` refreshes `data/article-popularity.json` from the public
+GoatCounter counters before exporting. Counts from `/blog/<slug>` and
+`/zh/blog/<slug>` are added together, without trailing slashes. Requests are
+throttled and no API key or browser-side catalog-wide polling is needed.
+The published ranking updates on each build; GoatCounter's counters can
+themselves lag visits by up to four hours. Equal counts are ordered by newest
+article, then slug.
+
+An incomplete refresh retains the last complete snapshot. Unknown values are
+never replaced with zero. If the snapshot does not cover the current catalog,
+or belongs to a different configured site, the card labels its first two entries
+as **Recent posts / 近期文章** until a complete refresh is available.
+Run `node scripts/check-recommendations.mjs`, and after building add `--export`,
+to verify the ranking, fallback, random exclusions and exported card.
+
 The site uses GoatCounter for per-post counts and the site total. Create a GoatCounter
 site, then add its site code (the part before `.goatcounter.com`) as the GitHub
 Actions repository variable `GOATCOUNTER_CODE` under **Settings → Secrets and
