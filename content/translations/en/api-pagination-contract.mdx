@@ -1,0 +1,8 @@
+---
+title: "List API Contracts: Design Pagination, Sorting, and Filtering Together"
+summary: "Stable list APIs make dashboard tables and data exports more reliable."
+---
+
+The API contract should define pagination parameters, default sorting, the maximum page size, filter fields, and whether the response includes a total count. For large datasets, `count` can be expensive. Consider whether an estimated count or cursor pagination is more appropriate.
+
+Sorting fields must come from an allowlist. Never insert field names supplied by a client directly into SQL. Validate filter types, ranges, and permissions in the query layer as well.

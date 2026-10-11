@@ -29,12 +29,16 @@ jobs:
         run: npm ci
       - name: Verify accepted architecture bundle
         run: node scripts/check-architecture-bundle.mjs
+      - name: Verify languages and article translations
+        run: node scripts/check-bilingual.mjs
       - name: Build
         run: npm run build
         env:
           NEXT_PUBLIC_GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
       - name: Verify architecture files survive static export
         run: node scripts/check-architecture-bundle.mjs --export
+      - name: Verify bilingual pages and exported links
+        run: node scripts/check-bilingual.mjs --export
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

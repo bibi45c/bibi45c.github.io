@@ -2,35 +2,37 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { MobileMenu } from "./MobileMenu";
+import { getMessages, localizedPath } from "@/lib/i18n";
 
 export const navigationItems = [
   {
-    name: "Home",
+    key: "home",
     href: "/",
   },
   {
-    name: "Blog",
+    key: "blog",
     href: "/blog",
   },
   {
-    name: "Projects",
+    key: "projects",
     href: "/project",
   },
   {
-    name: "About",
+    key: "about",
     href: "/about",
   },
 ];
 
-export default function Navbar({ page }) {
+export default function Navbar({ page, locale = "en" }) {
+  const t = getMessages(locale);
   return (
     <>
-      <div className="justify-center hidden col-span-2 mt-0.5 sm:flex h-14">
+      <nav aria-label={locale === "zh" ? "主导航" : "Main navigation"} className="hidden flex-1 justify-center sm:flex h-14">
         <ul className="items-center justify-center hidden bg-[#f2f2f21a] rounded-full sm:flex px-2 py-1 ">
           {navigationItems.map((item) => {
             const isSelected = page == item.href;
             return (
-              <motion.li key={item.name} className="relative">
+              <motion.li key={item.key} className="relative">
                 {isSelected && (
                   <>
                     <motion.div
@@ -43,24 +45,24 @@ export default function Navbar({ page }) {
                     ></motion.div>
                   </>
                 )}
-                <Link href={item.href}>
+                <Link href={localizedPath(item.href, locale)} aria-current={isSelected ? "page" : undefined}>
                   <motion.div
                     whileHover={{
                       backgroundColor: "#f2f2f20d",
                     }}
-                    className={`px-4 py-3 rounded-full ${item.name != "Home" && item.name != "Blog" && item.name != "About" ? "tracking-tight" : "tracking-widest"} font-bold text-sm`}
+                    className={`px-3 md:px-4 py-3 rounded-full ${locale === "zh" ? "tracking-normal" : "tracking-tight"} font-bold text-sm`}
                   >
-                    {item.name}
+                    {t.nav[item.key]}
                   </motion.div>
                 </Link>
               </motion.li>
             );
           })}
         </ul>
-      </div>
+      </nav>
 
-      <div className="flex items-center justify-center sm:hidden">
-        <MobileMenu />
+      <div className="flex flex-1 items-center justify-center sm:hidden">
+        <MobileMenu page={page} locale={locale} />
       </div>
     </>
   );

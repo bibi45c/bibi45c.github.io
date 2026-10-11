@@ -1,7 +1,9 @@
 import Description from "@/components/Description";
 import MotionDivWrapper from "@/components/MotionDivWrapper";
+import { getMessages } from "@/lib/i18n";
 
-export default function AboutPage() {
+export default function AboutPage({ locale = "en" }) {
+  const t = getMessages(locale);
   return (
     <MotionDivWrapper
       initial={{ opacity: 0 }}
@@ -9,17 +11,13 @@ export default function AboutPage() {
       transition={{ duration: 0.8 }}
       className="flex flex-col gap-10"
     >
-      <Description page="About" />
+      <Description page={t.nav.about} />
       <section className="max-w-3xl space-y-5 rounded-2xl border border-foreground/15 bg-foreground/[0.03] p-8 text-sm leading-7 text-muted-foreground">
         <p className="text-foreground">
-          This site is being rebuilt as a durable technical notebook and
-          portfolio for bibi45.
+          {t.aboutIntro}
         </p>
         <p>
-          It will contain selected writing on data engineering, AI systems,
-          DevSecOps, software development, and project retrospectives. The
-          source, articles, and downloadable portfolio material will remain in
-          Git so the site does not depend on a rented server or database.
+          {t.aboutDetail}
         </p>
       </section>
     </MotionDivWrapper>

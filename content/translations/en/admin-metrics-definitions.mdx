@@ -1,0 +1,8 @@
+---
+title: "Dashboard Metrics: Define Active, Ordering, and New Users First"
+summary: "Before drawing charts, agree on metric definitions, time zones, deduplication rules, and data delays."
+---
+
+Metrics such as daily active users, daily ordering users, and new users over the last 30 days need explicit definitions for the event, deduplication key, business time zone, and reporting window.
+
+For example, daily ordering users are usually counted by distinct user IDs associated with either successfully created orders or successfully paid orders. The business team must confirm which status to use. Dashboards should show the last data refresh time so that delayed data is not mistaken for real-time results.

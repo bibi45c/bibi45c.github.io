@@ -1,0 +1,18 @@
+---
+title: "Django Inventory Concurrency: Two Ways to Prevent Overselling"
+summary: "Check and reduce stock in a single database operation or a short transaction."
+---
+
+When several users check out the same SKU at once, reading stock first and reducing it later creates a race condition. Pessimistic locking uses `select_for_update()` to lock the record inside a transaction. A conditional update combines the stock check and deduction in a single SQL statement.
+
+```python
+updated = SKU.objects.filter(
+    pk=sku_id,
+    stock__gte=quantity,
+).update(stock=F("stock") - quantity)
+
+if updated != 1:
+    raise InsufficientStock()
+```
+
+Whichever approach you choose, the order flow must handle transaction rollbacks and duplicate submissions. Inventory logic can be discussed publicly, but it does not replace payment confirmation or order idempotency.

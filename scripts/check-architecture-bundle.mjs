@@ -32,6 +32,6 @@ for (const [file, destination] of [['index.html', `/${bundle}`], ['en.html', `/$
   assert.ok(bytes.toString('utf8').includes(`url=${destination}`), `Invalid legacy redirect ${file}`);
   if (process.argv.includes('--export')) assert.ok(bytes.equals(read(`out/${path}`)));
 }
-const projects = read(process.argv.includes('--export') ? 'out/project/index.html' : 'app/project/page.js').toString('utf8');
+const projects = read(process.argv.includes('--export') ? 'out/project/index.html' : 'components/pages/ProjectPage.jsx').toString('utf8');
 for (const path of [`/${bundle}`, `/${bundle}en.html`]) assert.ok(projects.includes(path));
 console.log('Architecture bundle passed: accepted EN/ZH hashes, themes, license, project links and legacy redirects' + (process.argv.includes('--export') ? ', including static export.' : '.'));

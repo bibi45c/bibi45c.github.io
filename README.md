@@ -16,6 +16,29 @@ npm install
 npm run dev
 ```
 
+## Languages
+
+English is the default at `/`. Chinese pages use `/zh/`, including `/zh/blog/`,
+`/zh/project/` and `/zh/about/`. The header language button opens the matching
+page in the other language and preserves the article slug, query string and hash.
+Navigation stays in the selected language. There is no browser-language redirect.
+
+Both editions are exported as static HTML with their own document language,
+canonical URL and language alternatives. English routes live in `app/(en)/`;
+Chinese routes live in `app/zh/`. Shared page components are in `components/pages/`
+and interface copy is in `lib/i18n.js`.
+
+Original articles stay in `content/blog/`. Add a translated title, summary and
+body in `content/translations/en/<slug>.mdx` or `content/translations/zh/<slug>.mdx`.
+The original supplies author, date and category. A missing translation displays
+the original with its language badge and an explanatory notice; it is not marked
+as a translated edition. Original article language can be set with `language: en`
+or `language: zh` in frontmatter; older posts infer it from their title and body.
+
+Validate locale routes and article fallback with `node scripts/check-bilingual.mjs`;
+after building, use `node scripts/check-bilingual.mjs --export` to check all static
+pages, language links and translated article bodies.
+
 ## Deployment
 
 1. Create a GitHub repository and push this project to its `main` branch.
