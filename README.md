@@ -44,14 +44,14 @@ pages, language links and translated article bodies.
 1. Create a GitHub repository and push this project to its `main` branch.
 2. In the repository's Pages settings, select **GitHub Actions** as the publishing source.
 3. Push to `main`; the workflow at `.github/workflows/deploy.yml` will publish the generated `out/` folder.
-4. Add a custom domain later in GitHub Pages settings when the domain is ready.
+4. The production custom domain is `juiceless.cn`, configured in GitHub Pages settings with HTTPS enforced. Cloudflare provides DNS and proxies web traffic on the Free plan with Full (strict) TLS.
 
 ## Interactive architecture
 
 The Projects page links to the Hex Tactics Archify viewers:
 
-- Chinese: https://bibi45c.github.io/architecture/hex-tactics/
-- English: https://bibi45c.github.io/architecture/hex-tactics/en.html
+- Chinese: https://juiceless.cn/architecture/hex-tactics/
+- English: https://juiceless.cn/architecture/hex-tactics/en.html
 
 These self-contained HTML files are published from `public/architecture/hex-tactics/` without modifying their accepted upstream bytes. Editable JSON and source evidence remain in [the game repository](https://github.com/bibi45c/UEA-CMP-SEM2-GAME-Turn_Based_Strategy); `provenance.json` records the delivery commit, architecture evidence commit and file hashes. Do not hand-edit the generated viewers. To refresh them, validate and deliver in the game repository, copy the accepted HTML/preview files here and update the provenance hashes. Run `node scripts/check-architecture-bundle.mjs`, build, then run it again with `--export` before publishing.
 
