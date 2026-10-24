@@ -46,6 +46,34 @@ pages, language links and translated article bodies.
 3. Push to `main`; the workflow at `.github/workflows/deploy.yml` will publish the generated `out/` folder.
 4. The production custom domain is `juiceless.cn`, configured in GitHub Pages settings with HTTPS enforced. Cloudflare provides DNS and proxies web traffic on the Free plan with Full (strict) TLS.
 
+### HTML edge cache and deployment invalidation
+
+The Cloudflare rule `Static HTML — respect origin 10 min` makes public HTML
+eligible for edge caching. It matches only `juiceless.cn`, GET/HEAD, an empty
+query string, and paths ending in `/` or `.html`; `/_next/` and `/cdn-cgi/` are
+excluded. RSC payloads and query-bearing requests keep their existing behavior.
+The edge respects origin Cache-Control (currently GitHub Pages `max-age=600`)
+and bypasses caching when that header is absent. Browser TTL is set to bypass,
+so a browser must validate HTML rather than keep a fresh local copy after a purge.
+Existing hashed JavaScript/CSS asset caching is unchanged.
+
+After Pages deployment succeeds, the workflow runs
+`scripts/purge-cloudflare-cache.mjs` to purge this zone's cache, including static
+assets. Configure the repository variable `CLOUDFLARE_ZONE_ID` and Actions secret
+`CLOUDFLARE_API_TOKEN`. The token must have only **Zone / Cache Purge / Purge**
+for **juiceless.cn**. Never commit its value. Pull request builds cannot run the
+deployment or access this secret through the purge step.
+The configured token expires on 2027-10-25; replace the Actions secret with a
+token of the same narrow scope before that date to keep deployment purges working.
+
+A failed purge marks the deployment job failed even if Pages has already
+published. Correct the token/variable and rerun the workflow; the script retries
+temporary network, HTTP 429 and server failures up to three times. Existing
+edge entries can remain until their origin TTL expires. To roll back HTML
+caching, disable the named Cloudflare rule and purge the zone once in the
+dashboard. Revoke the token and remove the secret if automatic purging is retired.
+Validate the purge logic with `node --test scripts/purge-cloudflare-cache.test.mjs`.
+
 ## Interactive architecture
 
 The Projects page links to the Hex Tactics Archify viewers:
