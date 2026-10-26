@@ -20,21 +20,21 @@ export default async function BlogPostPage({ slug, locale = "en" }) {
   const t = getMessages(locale);
 
   return (
-    <section className="flex mx-auto">
+    <section className="mx-auto flex animate-page-in">
       <aside className="relative hidden pt-14 2xl:block">
         <Link
           href={localizedPath("/blog", locale)}
-          className="sticky flex items-center gap-1 py-2 pl-4 pr-5 rounded-full top-10  text-foreground font-semibold bg-[#f2f2f21a] "
+          className="glass sticky top-10 flex items-center gap-1.5 rounded-pill py-2 pl-3 pr-4 text-14 font-medium text-muted-foreground transition-colors hover:text-strong"
         >
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft size={16} aria-hidden="true" />
           <span>{t.back}</span>
         </Link>
       </aside>
 
-      <article lang={language === "zh" ? "zh-CN" : "en"} className="w-full min-w-0 max-w-3xl mx-auto mt-16">
+      <article lang={language === "zh" ? "zh-CN" : "en"} className="mx-auto w-full min-w-0 max-w-3xl">
         <header>
           {image && (
-            <div className="relative w-full flex justify-center items-center mb-10 overflow-hidden rounded-lg aspect-[240/135]">
+            <div className="relative mb-10 aspect-[240/135] w-full overflow-hidden rounded-row border border-line">
               <Image
                 src={image}
                 alt={title || ""}
@@ -44,27 +44,35 @@ export default async function BlogPostPage({ slug, locale = "en" }) {
             </div>
           )}
 
-          <p lang={locale === "zh" ? "zh-CN" : "en"} className="mb-2 text-sm text-muted-foreground">
-            {publishedAt ?? ""} | {t.tags[tag] ?? tag}{" "}
+          <p lang={locale === "zh" ? "zh-CN" : "en"} className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-12 text-muted-foreground">
+            {publishedAt && <time dateTime={publishedAt}>{publishedAt}</time>}
+            <span aria-hidden="true">·</span>
+            <span>{t.tags[tag] ?? tag}</span>
+            <span aria-hidden="true">·</span>
             <ArticleLanguage language={language} locale={locale} />
-            {translated && <span className="ml-2 text-xs">{t.translated}</span>}
-            <ViewCount path={localizedPath(`/blog/${slug}`, locale).replace(/\/$/, "")} label={t.views} prefix=" | " />
+            {translated && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{t.translated}</span>
+              </>
+            )}
+            <ViewCount path={localizedPath(`/blog/${slug}`, locale).replace(/\/$/, "")} label={t.views} prefix="· " />
           </p>
 
-          <h1 className="mb-2 text-3xl sm:text-4xl font-bold">{title}</h1>
+          <h1 className="page-title mt-3.5">{title}</h1>
 
-          <p className="mb-6 text-muted-foreground">{author}</p>
+          {author && <p className="mt-3 text-15 text-muted-foreground">{author}</p>}
 
-          <p className="">{summary}</p>
+          {summary && <p className="mt-6 text-17 leading-[1.7] text-foreground [&:lang(zh)]:leading-[1.85]">{summary}</p>}
         </header>
 
         {language !== locale && (
-          <p lang={locale === "zh" ? "zh-CN" : "en"} className="mt-8 rounded-xl border border-foreground/15 bg-foreground/5 p-4 text-sm leading-6 text-muted-foreground">{t.originalOnly}</p>
+          <p lang={locale === "zh" ? "zh-CN" : "en"} className="mt-8 rounded-row border border-line bg-hover p-4 text-14 leading-6 text-muted-foreground">{t.originalOnly}</p>
         )}
 
-        <main className="mt-16 prose max-w-none prose-invert prose-p:text-foreground prose-h1:text-foreground prose-h2:text-foreground prose-h3:text-foreground prose-h4:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-strong:font-bold prose-a:text-blue-400 prose-a:opacity-80 prose-code:text-foreground prose-img:opacity-90 prose-p:tracking-tight prose-p:text-sm prose-li:text-sm">
+        <div className="prose article-prose mt-12">
           <MDXRemote source={content} />
-        </main>
+        </div>
       </article>
     </section>
   );

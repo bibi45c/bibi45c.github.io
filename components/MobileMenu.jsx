@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -12,7 +11,6 @@ import {
 import { ChevronDown } from "lucide-react";
 import { navigationItems } from "./Navbar";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getMessages, localizedPath } from "@/lib/i18n";
@@ -30,15 +28,13 @@ export function MobileMenu({ page, locale = "en" }) {
   return (
     <Sheet open={open} onOpenChange={(state) => setOpen(state)}>
       <SheetTrigger asChild>
-        <Button className="bg-secondary text-muted-foreground shadow-[0_0px_3px_0.5px_#2f2f2f] hover:bg-[#f2f2f20d] rounded-full pr-2">
-          <span className="pr-1">
-            {t.nav[currentItem.key]}
-          </span>
-          <ChevronDown size={15} />
-        </Button>
+        <button type="button" className="cap-item cap-menu" data-current={currentItem.href === page ? "" : undefined}>
+          {t.nav[currentItem.key]}
+          <ChevronDown size={14} aria-hidden="true" />
+        </button>
       </SheetTrigger>
       <SheetContent
-        className="mt-10 ml-6 mr-10 border-none text-muted-foreground rounded-xl"
+        className="mx-4 mt-4 rounded-card border border-line bg-surface/95 p-4 text-muted-foreground shadow-none"
         side="top"
         closeLabel={locale === "zh" ? "关闭菜单" : "Close menu"}
       >
@@ -46,18 +42,16 @@ export function MobileMenu({ page, locale = "en" }) {
           <SheetTitle className="sr-only">{locale === "zh" ? "主导航" : "Main navigation"}</SheetTitle>
           <SheetDescription className="sr-only">{locale === "zh" ? "选择要浏览的页面。" : "Choose a page to visit."}</SheetDescription>
         </SheetHeader>
-        <ul className="flex flex-col pl-5 mt-5 space-y-1">
-          {navigationItems.map((item, index) => (
-            <li key={index}>
+        <ul className="mt-6 flex flex-col">
+          {navigationItems.map((item) => (
+            <li key={item.key}>
               <Link
                 href={localizedPath(item.href, locale)}
                 aria-current={page === item.href ? "page" : undefined}
-                className={cn(
-                  page === item.href ? "font-bold" : "",
-                  "flex items-center py-3"
-                )}
+                className="flex min-h-11 items-center gap-2 rounded-row px-3 text-15 font-medium transition-colors hover:text-strong aria-[current=page]:text-strong"
               >
                 {t.nav[item.key]}
+                {page === item.href && <span className="size-[3px] rounded-pill bg-accent" aria-hidden="true" />}
               </Link>
             </li>
           ))}

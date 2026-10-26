@@ -49,12 +49,12 @@ export default function ReadNext({ posts, popular, ranked, locale = "en" }) {
   function article(post) {
     const language = post.language === "zh" ? "中文" : "English";
     return (
-      <Link className={styles.articleLink} href={localizedPath("/blog/" + post.slug, locale)}>
-        <span className={styles.articleContent}>
-          <span className={styles.articleTitle} lang={post.language === "zh" ? "zh-CN" : "en"}>
+      <Link className={styles.row} href={localizedPath("/blog/" + post.slug, locale)}>
+        <span className={styles.rowContent}>
+          <span className={styles.rowTitle} lang={post.language === "zh" ? "zh-CN" : "en"}>
             {post.title}
           </span>
-          <span className={styles.articleMeta}>
+          <span className={styles.rowMeta}>
             <span>{t.tags[post.tag] ?? post.tag}</span>
             <span aria-hidden="true"> · </span>
             <span aria-label={t.articleLanguage + ": " + language}>{language}</span>
@@ -66,23 +66,23 @@ export default function ReadNext({ posts, popular, ranked, locale = "en" }) {
             )}
           </span>
         </span>
-        <ArrowUpRight size={16} className={styles.articleArrow} aria-hidden="true" />
+        <ArrowUpRight size={16} className={styles.arrow} aria-hidden="true" />
       </Link>
     );
   }
 
   return (
-    <div className={styles.card + " " + styles.recommendationCard}>
-      <h2 id="read-next-title" className={styles.recommendationTitle}>{t.readNext}</h2>
-      <p className={styles.cardIntro}>{ranked ? t.readNextIntro : t.readNextRecentIntro}</p>
-      <section className={styles.popularSection} aria-label={ranked ? t.mostRead : t.recentPicks}>
-        <h3 className={styles.sectionLabel}>{ranked ? t.mostRead : t.recentPicks}</h3>
-        {popular.map(post => <div key={post.slug} className={styles.articleRow}>{article(post)}</div>)}
+    <div className={"glass glass-lift " + styles.card}>
+      <h2 id="read-next-title" className={styles.title}>{t.readNext}</h2>
+      <p className={styles.intro}>{ranked ? t.readNextIntro : t.readNextRecentIntro}</p>
+      <section className={styles.group} aria-label={ranked ? t.mostRead : t.recentPicks}>
+        <h3 className={"label " + styles.label}>{ranked ? t.mostRead : t.recentPicks}</h3>
+        {popular.map(post => <div key={post.slug}>{article(post)}</div>)}
       </section>
       {randomPost && (
-        <section className={styles.randomSection} aria-label={t.randomPick}>
-          <div className={styles.randomHeader}>
-            <h3 className={styles.sectionLabel}>{t.randomPick}</h3>
+        <section className={styles.group} aria-label={t.randomPick}>
+          <div className={styles.groupHead}>
+            <h3 className={"label " + styles.label}>{t.randomPick}</h3>
             <button type="button" className={styles.shuffle} onClick={shuffle} disabled={pool.length < 2}>
               <RotateCw size={13} aria-hidden="true" />
               {t.anotherPost}

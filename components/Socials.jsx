@@ -2,11 +2,11 @@ import { Github } from "lucide-react";
 import SocialMediaLink from "./SocialMediaLink";
 import { site } from "@/lib/site";
 
-function Socials() {
+function Socials({ className = "" }) {
   return (
-    <div className="flex gap-6 ">
-      <SocialMediaLink link={site.github}>
-        <Github />
+    <div className={`-ml-2.5 flex ${className}`}>
+      <SocialMediaLink link={site.github} label="GitHub">
+        <Github size={20} aria-hidden="true" />
       </SocialMediaLink>
     </div>
   );
