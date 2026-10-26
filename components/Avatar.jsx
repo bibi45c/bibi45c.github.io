@@ -2,18 +2,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { getMessages, localizedPath } from "@/lib/i18n";
 
-export default function Avatar({ page, locale = "en" }) {
+export default function Avatar({ locale = "en" }) {
   return (
-    <div className="flex items-center justify-start col-span-1">
-      <Link href={localizedPath("/", locale)} aria-label={getMessages(locale).homeLabel}>
-        <Image
-          src="/avatar-black-shirt-wide-shoulders-v1.png"
-          alt="bibi45"
-          width={48}
-          height={48}
-          className={`size-12 rounded-full border border-foreground/30 object-cover transition duration-700 ${page == "/" ? "translate-y-20 scale-150" : ""}`}
-        />
-      </Link>
-    </div>
+    <Link
+      href={localizedPath("/", locale)}
+      aria-label={getMessages(locale).homeLabel}
+      className="block size-10 justify-self-start overflow-hidden rounded-pill border border-[color:var(--glass-edge)]"
+    >
+      <Image
+        src="/avatar-black-shirt-wide-shoulders-v1.png"
+        alt="bibi45"
+        width={40}
+        height={40}
+        className="size-full object-cover"
+      />
+    </Link>
   );
 }

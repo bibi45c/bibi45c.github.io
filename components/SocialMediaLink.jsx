@@ -1,13 +1,13 @@
-import Link from "next/link";
-
-export default function SocialMediaLink({ children, link }) {
+export default function SocialMediaLink({ children, link, label }) {
   return (
-    <Link
-      className="flex items-center justify-center w-8 h-8 p-[5px] duration-500 opacity-60 hover:opacity-100 border-muted-foreground "
+    <a
+      className="inline-flex size-10 items-center justify-center rounded-pill text-muted-foreground transition-colors hover:text-strong"
       href={link}
       target="_blank"
+      rel="noreferrer"
+      aria-label={label}
     >
       {children}
-    </Link>
+    </a>
   );
 }

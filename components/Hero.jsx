@@ -2,27 +2,19 @@ import HeroAnimation from "./HeroAnimation";
 import Socials from "./Socials";
 import { getMessages } from "@/lib/i18n";
 
-export default function Hero({ locale = "en" }) {
+export default function Hero({ locale = "en", className = "" }) {
   const t = getMessages(locale);
   return (
-    <div>
-      <p className="mb-6 font-semibold">
-        <span className="text-transparent sm:bg-gradient-to-r to-foreground bg-gradient-to-t from-muted-foreground bg-clip-text lg:text-[54px] text-[40px]">
-          {t.greeting}
-        </span>
-      </p>
-      <div className="mb-8 h-10 sm:mb-10">
-        <HeroAnimation text1={"<DataEngineering/>"} text2="<AISystems/>" />
-      </div>
-      <p className="mb-8 text-xl text-transparent sm:mb-10 sm:text-[26px] bg-gradient-to-r from-green-200 via-green-100 opacity-60 to-green-200 bg-clip-text w-fit">
-        {t.hashtag}
-      </p>
-
-      <p className="mb-4 text-sm text-transparent bg-clip-text bg-gradient-to-b sm:mb-6 sm:text-base to-muted-foreground from-foreground">
+    <section className={className}>
+      <h1 className="text-34 font-semibold tracking-[-0.02em] text-strong lg:text-46 [&:lang(zh)]:leading-[1.3] [&:lang(zh)]:tracking-normal">
+        {t.greeting}
+      </h1>
+      <HeroAnimation />
+      <p className="mt-5 font-mono text-13 text-muted-foreground">{t.hashtag}</p>
+      <p className="mt-4 max-w-[33rem] text-17 leading-[1.7] text-foreground [&:lang(zh)]:max-w-[30em] [&:lang(zh)]:leading-[1.85]">
         {t.introduction}
       </p>
-
-      <Socials />
-    </div>
+      <Socials className="mt-5" />
+    </section>
   );
 }
