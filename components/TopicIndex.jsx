@@ -22,7 +22,7 @@ export default function TopicIndex({ blogs, locale = "en", className = "" }) {
           return (
             <li key={slug} className="border-t border-line first:border-t-0">
               <Link
-                href={localizedPath(`/blog/?tag=${slug}`, locale)}
+                href={localizedPath(`/blog/?tag=${encodeURIComponent(slug)}`, locale)}
                 aria-label={`${name}, ${postCountLabel(t, count)}`}
                 className="group grid grid-cols-[minmax(0,1fr)_88px_28px] items-center gap-3 py-2.5"
               >
