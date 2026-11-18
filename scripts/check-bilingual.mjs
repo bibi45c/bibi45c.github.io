@@ -75,12 +75,13 @@ if (process.argv.includes("--export")) {
     return rendered(html);
   }
   for (const locale of ["en", "zh"]) {
-    for (const path of ["/", "/about", "/project", "/blog"]) {
+    for (const path of ["/", "/about", "/project", "/boards", "/blog"]) {
       const html = inspect(localizedPath(path, locale), locale);
       assert.ok(/hreflang="en"/i.test(html) && /hreflang="zh-CN"/i.test(html) && /hreflang="x-default"/i.test(html));
       if (path === "/") assert.ok(html.includes(messages[locale].greeting) && html.includes(messages[locale].hashtag));
       if (path === "/about") assert.ok(html.includes(messages[locale].aboutIntro));
       if (path === "/project") assert.ok(html.includes(messages[locale].projectSummary));
+      if (path === "/boards") assert.ok(html.includes(messages[locale].boardsIntro) && html.includes(messages[locale].antxTitle) && html.includes(messages[locale].ppolyTitle));
     }
     for (const post of await getBlogs(locale)) {
       const html = inspect(localizedPath(`/blog/${post.slug}`, locale), locale);

@@ -18,6 +18,10 @@ export const navigationItems = [
     href: "/project",
   },
   {
+    key: "boards",
+    href: "/boards",
+  },
+  {
     key: "about",
     href: "/about",
   },
