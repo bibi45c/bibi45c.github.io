@@ -121,7 +121,7 @@ function Spark({ points, xMax, label, fitY = false }) {
   );
 }
 
-function Board({ t, href, source, kind, title, summary, state, metrics, spark, generatedAt, now }) {
+function Board({ t, href, source, kind, title, summary, state, metrics, spark, generatedAt, now, note }) {
   return (
     <article className="glass group relative flex flex-col rounded-card p-5 transition-shadow duration-slow hover:glass-lift sm:p-6">
       <div className="flex items-center justify-between gap-3">
@@ -146,7 +146,7 @@ function Board({ t, href, source, kind, title, summary, state, metrics, spark, g
       </dl>
       <div className="mt-4">{spark}</div>
       <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 whitespace-nowrap font-mono text-12 text-muted-foreground">
-        <span className="text-faint">{generatedAt && now ? formatMessage(t.boardsSnapshot, { ago: ago(t, now - generatedAt) }) : t.boardsLoading}</span>
+        <span className="text-faint">{note ?? (generatedAt && now ? formatMessage(t.boardsSnapshot, { ago: ago(t, now - generatedAt) }) : t.boardsLoading)}</span>
         <span className="flex items-center gap-4">
           <a href={source} target="_blank" rel="noreferrer" className="relative z-[1] transition-colors hover:text-strong">
             {t.boardsSource}
@@ -218,6 +218,7 @@ export default function LiveBoards({ locale = "en" }) {
         state={antxState}
         now={now}
         generatedAt={antx?.generatedAt}
+        note={antxState === "ended" ? t.antxClosed : undefined}
         metrics={[
           [t.antxRaised, antx ? money(locale, antx.total) : dash],
           [t.antxIpo, locale === "zh" ? `${ANTX.ipoPrice} U` : `$${ANTX.ipoPrice}`],
