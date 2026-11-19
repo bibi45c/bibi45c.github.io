@@ -81,7 +81,7 @@ if (process.argv.includes("--export")) {
       if (path === "/") assert.ok(html.includes(messages[locale].greeting) && html.includes(messages[locale].hashtag));
       if (path === "/about") assert.ok(html.includes(messages[locale].aboutIntro));
       if (path === "/project") assert.ok(html.includes(messages[locale].projectSummary));
-      if (path === "/boards") assert.ok(html.includes(messages[locale].boardsIntro) && html.includes(messages[locale].antxTitle) && html.includes(messages[locale].ppolyTitle));
+      if (path === "/boards") assert.ok(html.includes(messages[locale].boardsIntro) && html.includes(messages[locale].antxTitle) && html.includes(messages[locale].ppolyTitle) && html.includes(messages[locale].ptTitle));
     }
     for (const post of await getBlogs(locale)) {
       const html = inspect(localizedPath(`/blog/${post.slug}`, locale), locale);

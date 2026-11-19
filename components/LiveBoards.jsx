@@ -23,6 +23,13 @@ const PPOLY = {
   announce: Date.UTC(2026, 11, 24) / 1000, // buyback details announced 12/24 08:00 Beijing
 };
 
+// Papertrade runs on a Cloudflare Worker (not Pages); its JSON API allows cross-origin reads.
+const PT = {
+  href: "https://papertrade-monitor.papertrade-monitor.workers.dev/",
+  api: "https://papertrade-monitor.papertrade-monitor.workers.dev/api",
+  source: "https://github.com/bibi45c/papertrade-monitor",
+};
+
 const dash = "—";
 
 function useSnapshot(path) {
@@ -38,6 +45,21 @@ function useSnapshot(path) {
       alive = false;
     };
   }, [path]);
+  return data;
+}
+
+function useJson(url) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    let alive = true;
+    fetch(url)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => alive && setData(d))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [url]);
   return data;
 }
 
@@ -74,15 +96,19 @@ function Status({ state, t }) {
   );
 }
 
-// Cumulative line; x and y are scaled into a fixed viewBox that stretches to the card width.
-function Spark({ points, xMax, label }) {
+// Line chart; x and y are scaled into a fixed viewBox that stretches to the card width.
+// Cumulative series start from zero; `fitY` scales between the series' own min and max instead.
+function Spark({ points, xMax, label, fitY = false }) {
   const W = 300;
   const H = 56;
   if (!points || points.length < 2) return <div className="h-14" aria-hidden="true" />;
   const x0 = points[0][0];
   const span = Math.max(1, (xMax ?? points[points.length - 1][0]) - x0);
-  const yMax = Math.max(...points.map((p) => p[1])) || 1;
-  const xy = points.map(([x, y]) => [((x - x0) / span) * W, H - 3 - (y / yMax) * (H - 8)]);
+  const ys = points.map((p) => p[1]);
+  const yMin = fitY ? Math.min(...ys) : 0;
+  const yMax = Math.max(...ys);
+  const ySpan = yMax - yMin || 1;
+  const xy = points.map(([x, y]) => [((x - x0) / span) * W, H - 3 - ((y - yMin) / ySpan) * (H - 8)]);
   const line = xy.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)},${y.toFixed(1)}`).join("");
   const last = xy[xy.length - 1];
   return (
@@ -137,6 +163,11 @@ function money(locale, v) {
   return locale === "zh" ? `${(v / 1e8).toFixed(2)} 亿` : `${(v / 1e6).toFixed(1)}M`;
 }
 
+function usd(locale, v) {
+  if (locale === "zh") return v >= 1e8 ? `$${(v / 1e8).toFixed(2)} 亿` : `$${Math.round(v / 1e4).toLocaleString("zh-CN")} 万`;
+  return `$${(v / 1e6).toFixed(1)}M`;
+}
+
 export default function LiveBoards({ locale = "en" }) {
   const t = getMessages(locale);
   const now = useNow();
@@ -163,6 +194,16 @@ export default function LiveBoards({ locale = "en" }) {
     if (now) ppolyCurve.push([now, sum]);
   }
   const days = now == null ? null : Math.max(0, Math.ceil((PPOLY.announce - now) / 86400));
+
+  const pt = useJson(`${PT.api}/latest`)?.snapshot ?? null;
+  const ptHistory = useJson(`${PT.api}/history?hours=24`);
+  const ptAt = pt?.collectedAt ? pt.collectedAt / 1000 : null;
+  // Live only while the minute collector is fresh; unknown values stay as dashes, never zero.
+  const ptState = now == null || ptAt == null ? null : now - ptAt < 600 ? "live" : null;
+  const ptCurve = (ptHistory?.rows ?? [])
+    .filter((r) => r.reward_accumulator != null)
+    .map((r) => [r.collected_at / 1000, Number(BigInt(r.reward_accumulator)) / 1e27]);
+  const ptStaked = pt?.paper?.supply > 0 && pt.paper.staked != null ? (pt.paper.staked / pt.paper.supply) * 100 : null;
 
   return (
     <div className="grid gap-5 md:grid-cols-2">
@@ -199,6 +240,23 @@ export default function LiveBoards({ locale = "en" }) {
           [t.ppolyAnnounce, days == null ? dash : formatMessage(t.boardsDays, { n: days })],
         ]}
         spark={<Spark points={ppolyCurve} label={`${t.ppolyTitle} · ${t.boardsCurve}`} />}
+      />
+      <Board
+        t={t}
+        href={PT.href}
+        source={PT.source}
+        kind={t.ptKind}
+        title={t.ptTitle}
+        summary={t.ptSummary}
+        state={ptState}
+        now={now}
+        generatedAt={ptAt}
+        metrics={[
+          [t.ptTvl, pt?.balances?.tvl != null ? usd(locale, pt.balances.tvl) : dash],
+          [t.ptStaked, ptStaked != null ? `${ptStaked.toFixed(1)}%` : dash],
+          [t.ptLp, pt?.balances?.lp != null ? usd(locale, pt.balances.lp) : dash],
+        ]}
+        spark={<Spark points={ptCurve} fitY label={t.ptCurve} />}
       />
     </div>
   );
