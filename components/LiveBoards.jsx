@@ -14,6 +14,7 @@ const ANTX = {
   start: 1794981600, // 2026-11-18 14:00 Beijing
   end: 1795010400, // 2026-11-18 22:00 Beijing
   cap: 5e8,
+  ipoPrice: 83, // final IPO price, set after the 11/18 US close (above the 70–78 range)
 };
 
 const PPOLY = {
@@ -219,8 +220,8 @@ export default function LiveBoards({ locale = "en" }) {
         generatedAt={antx?.generatedAt}
         metrics={[
           [t.antxRaised, antx ? money(locale, antx.total) : dash],
-          [t.antxCap, antx ? `${((antx.total / ANTX.cap) * 100).toFixed(1)}%` : dash],
-          [t.antxOrders, antx ? num(antx.orders) : dash],
+          [t.antxIpo, locale === "zh" ? `${ANTX.ipoPrice} U` : `$${ANTX.ipoPrice}`],
+          [t.antxAddrs, antx?.ak ? num(antx.ak.length) : dash],
         ]}
         spark={<Spark points={antxCurve} label={`${t.antxTitle} · ${t.boardsCurve}`} />}
       />
